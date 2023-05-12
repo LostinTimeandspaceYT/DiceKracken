@@ -32,7 +32,7 @@ def setup():
     grn_led.off()
     blu_led.off()
     brd_led.on()
-    lcd.putstr("Welcome to the CoC Dice Roller!")
+    lcd.putstr("CoC Dice Roller  Version 1.0")
     sleep(3)
     lcd.clear()
 
@@ -222,11 +222,11 @@ except KeyboardInterrupt:
     lcd.clear()
     lcd.putstr("Shutting down...")
     sleep(3)
-    brd_led.off()
     reset()
 
 finally:
     lcd.putstr("Until next time.")
     sleep(3)
     brd_led.off()
+    lcd.backlight_off()
     reset()

@@ -11,25 +11,34 @@ from I2C_LCD import I2cLcd
 from DiceRoller import Die
 from Keypad import Keypad
 
-# Initialization
+# Globals
 i2c = I2C(0, sda=Pin(20), scl=Pin(21), freq=400_000)
 i2c_addr = i2c.scan()[0]
 lcd = I2cLcd(i2c, i2c_addr, 2, 16)
 keypad = Keypad()
-
 red_led = Pin(18, Pin.OUT)
 grn_led = Pin(17, Pin.OUT)
 blu_led = Pin(16, Pin.OUT)
 brd_led = Pin(25, Pin.OUT)
 
-# Start Up Logic
-red_led.off()
-grn_led.off()
-blu_led.off()
-brd_led.on()
+
+def setup():
+    """
+    start up logic
+    """
+    red_led.off()
+    grn_led.off()
+    blu_led.off()
+    brd_led.on()
+    lcd.putstr("Welcome to the CoC Dice Roller!")
+    sleep(3)
+    lcd.clear()
 
 
 def reset():
+    """
+    reset the user led's and clears the lcd.
+    """
     red_led.off()
     grn_led.off()
     blu_led.off()
@@ -38,6 +47,11 @@ def reset():
 
 
 def get_answer():
+    """
+    gets a yes or no answer from the user via keypad entry.
+    blocking function.
+    :return: 'C' for confirm , 'D' for Deny
+    """
 
     ret = ""
     keypress = ''
@@ -59,6 +73,11 @@ def get_answer():
 
 
 def get_input():
+    """
+    gets a number from the user via keypad entry.
+    blocking function.
+    :return: int from user input
+    """
     test_str = ""
     keypress = ''
     while keypress != 'A' and keypress != '*':
@@ -194,7 +213,7 @@ def loop():
 
 
 def main():
-    # Run Set up code here
+    setup()
     loop()
 
 

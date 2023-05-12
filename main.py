@@ -32,7 +32,7 @@ def setup():
     grn_led.off()
     blu_led.off()
     brd_led.on()
-    lcd.putstr("CoC Dice Roller  Version 1.0")
+    lcd.putstr("CoC Dice Roller     Version 1.0")
     sleep(3)
     lcd.clear()
 
@@ -57,8 +57,9 @@ def get_answer():
 
     ret = ""
     keypress = ''
+    lcd.hide_cursor()
     while keypress != 'C' and keypress != 'D':
-        lcd.hide_cursor()
+
         keypress = keypad.get_keypress()
 
         if keypress == 'C' or keypress == 'D':  # Delete last keypress
@@ -79,8 +80,8 @@ def get_input():
     """
     test_str = ""
     keypress = ''
-    while keypress != 'A' and keypress != '*':
-        lcd.blink_cursor_on()
+    lcd.blink_cursor_on()
+    while keypress != 'A':
         keypress = keypad.get_keypress()
 
         if '0' <= keypress <= '9':
@@ -97,15 +98,22 @@ def get_input():
                 lcd.cursor_x -= 1
                 lcd.move_to(lcd.cursor_x, lcd.cursor_y)
 
+    lcd.blink_cursor_off()
     return int(test_str)
 
 
-def blink(led, blinks=3):
+def toggle_led(led, toggle=6):
+    """
+    blinks an LED by XORing its current state
+    :param led: Pin object
+    :param toggle: number of times to toggle
+    :return: None
+    """
     val = 0
-    while blinks > 0:
+    while toggle > 0:
         val = val ^ 1
         led.value(val)
-        blinks -= 1
+        toggle -= 1
         sleep(.5)
 
 
@@ -133,25 +141,25 @@ def loop():
             msg = "\nSuccess!"
 
         elif dice.extreme_suc < roll <= dice.hard_suc:
-            blink(grn_led, blinks=2)
-            msg = "\nHard success"
+            toggle_led(grn_led, toggle=4)
+            msg = "\nHard success!"
 
         elif 1 < roll <= dice.extreme_suc:
             blu_led.on()
             msg = "\nExtreme Success!"
 
         elif roll == 1:
-            blink(blu_led)
+            toggle_led(blu_led)
             msg = "\nCritical success!"
 
         elif skill_val < roll < dice.fumble:
             red_led.on()
-            msg = "\nYou failed."
+            msg = "\nFailure."
             failed = True
 
         elif roll >= dice.fumble:
-            blink(red_led)
-            msg = "\nYou fumbled."
+            toggle_led(red_led)
+            msg = "\nFumble..."
 
         lcd.putstr("Result: " + str(roll) + '\n' + msg)
         sleep(2.5)
@@ -166,8 +174,9 @@ def loop():
                 reset()
                 re = dice()
                 msg1 = ""
+
                 if re >= dice.fumble:
-                    blink(red_led)
+                    toggle_led(red_led)
                     lcd.putstr("Shouldn't have done that!")
 
                 elif skill_val < re < dice.fumble:  # the user failed the roll
@@ -176,18 +185,18 @@ def loop():
 
                 elif 1 < re <= skill_val:
                     grn_led.on()
-                    msg1 = "\nLucky roll"
+                    msg1 = "\nSuccess!"
 
                 elif dice.extreme_suc < re <= dice.hard_suc:
-                    blink(grn_led, blinks=2)
-                    msg1 = "\nHard success"
+                    toggle_led(grn_led, toggle=4)
+                    msg1 = "\nHard success!"
 
                 elif 1 < roll <= dice.extreme_suc:
                     blu_led.on()
                     msg1 = "\nExtreme Success!"
 
                 elif roll == 1:
-                    blink(blu_led)
+                    toggle_led(blu_led)
                     msg1 = "\nCritical success!"
 
                 lcd.putstr("Result: " + str(re) + '\n' + msg1)
@@ -198,6 +207,7 @@ def loop():
         lcd.hide_cursor()
         lcd.putstr("Roll again?\nC=Confirm D=Deny")
         again = get_answer()
+
         if again == deny:
             running = False
 

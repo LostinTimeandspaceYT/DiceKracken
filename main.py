@@ -90,7 +90,7 @@ def get_input():
             lcd.putchar(keypress)
             test_str += keypress
 
-        if keypress == '*' or keypress == 'B':  # Delete last keypress
+        if keypress == 'B':  # Delete last keypress
 
             test_str = test_str[:-1]
             if lcd.cursor_x > 7:

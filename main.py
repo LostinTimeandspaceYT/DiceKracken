@@ -68,9 +68,6 @@ def get_answer():
             sleep(2)
             lcd.clear()
 
-        print(ret)
-        print(f"keypress = {keypress}")
-
     return ret
 
 
@@ -90,7 +87,7 @@ def get_input():
             lcd.putchar(keypress)
             test_str += keypress
 
-        if keypress == 'B':  # Delete last keypress
+        if keypress == 'B':  # Backspace
 
             test_str = test_str[:-1]
             if lcd.cursor_x > 7:
@@ -99,9 +96,6 @@ def get_input():
                 lcd.putchar(' ')
                 lcd.cursor_x -= 1
                 lcd.move_to(lcd.cursor_x, lcd.cursor_y)
-
-        print(test_str)
-        print(f"keypress = {keypress}")
 
     return int(test_str)
 
@@ -134,7 +128,7 @@ def loop():
         failed = False
 
         # Result logic
-        if dice.hard_suc < roll <= skill_val: # the user succeeded their roll
+        if dice.hard_suc < roll <= skill_val:
             grn_led.on()
             msg = "\nSuccess!"
 
@@ -146,11 +140,11 @@ def loop():
             blu_led.on()
             msg = "\nExtreme Success!"
 
-        elif roll == 1: # the user got a critical success
+        elif roll == 1:
             blink(blu_led)
             msg = "\nCritical success!"
 
-        elif skill_val < roll < dice.fumble:  # the user failed the roll
+        elif skill_val < roll < dice.fumble:
             red_led.on()
             msg = "\nYou failed."
             failed = True
@@ -159,7 +153,7 @@ def loop():
             blink(red_led)
             msg = "\nYou fumbled."
 
-        lcd.putstr("Result: " + str(roll) + '\n' + msg)  # show the user their result
+        lcd.putstr("Result: " + str(roll) + '\n' + msg)
         sleep(2.5)
 
         reset()

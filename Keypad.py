@@ -30,5 +30,4 @@ class Keypad:
                     sleep_ms(10)
                     if key == KEY_DOWN:
                         self.last_key_press = keys[row][col]
-                        print("Key Pressed: " + keys[row][col])
                         return self.last_key_press

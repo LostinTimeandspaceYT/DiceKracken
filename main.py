@@ -20,6 +20,8 @@ red_led = Pin(18, Pin.OUT)
 grn_led = Pin(17, Pin.OUT)
 blu_led = Pin(16, Pin.OUT)
 brd_led = Pin(25, Pin.OUT)
+confirm = 'C'
+deny = 'D'
 
 
 def setup():
@@ -166,11 +168,7 @@ def loop():
             lcd.putstr("Push the roll?  C=Confirm D=Deny")
             push = get_answer()
 
-            confirm = True
-            if push == 'D':
-                confirm = False
-
-            if confirm:
+            if push != deny:
                 reset()
                 re = dice()
                 msg1 = ""
@@ -206,7 +204,7 @@ def loop():
         lcd.hide_cursor()
         lcd.putstr("Roll again?\nC=Confirm D=Deny")
         again = get_answer()
-        if again == 'D':
+        if again == deny:
             running = False
 
         reset()

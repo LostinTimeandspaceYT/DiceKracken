@@ -20,8 +20,8 @@ class Die(object):
     def __init__(self, skill_val=42):
         self.fumble = get_fumble(skill_val)
         self.skill_val = skill_val
-        self.hard_suc = round(skill_val / 2)
-        self.extreme_suc = round(skill_val / 5)
+        self.hard_suc = skill_val // 2
+        self.extreme_suc = skill_val // 5
         self.last_result = 0
 
     def __call__(self, bonus=0, penalty=0):
@@ -45,7 +45,7 @@ class Die(object):
                 high = tens_digit[0]
 
             elif penalty > bonus:
-                high = tens_digit[i]
+                high = tens_digit[-1]
 
             result = high + ones_digit
 

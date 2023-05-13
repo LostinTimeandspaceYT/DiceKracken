@@ -35,7 +35,8 @@ class Die(object):
 
             i = 0
             while i < modifier:
-                tens_digit.append(random.randint(0, 9) * 10)
+                tens = random.randint(0, 9) * 10
+                tens_digit.append(tens)
                 i += 1
 
             tens_digit.sort()
@@ -48,12 +49,15 @@ class Die(object):
                 high = tens_digit[-1]
 
             result = high + ones_digit
+            if result == 0 and penalty > bonus:
+                result = 100
+
+            # so the user gets the lowest possible value.
+            elif result == 0 and bonus > penalty:
+                result += tens_digit[1]
 
         else:
             result = random.randint(1, 100)
-
-        if result == 0:  # interpret the result according to the game
-            result = 100
 
         self.last_result = result
         return result

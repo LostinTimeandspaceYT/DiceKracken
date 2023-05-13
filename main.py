@@ -32,7 +32,7 @@ def setup():
     grn_led.off()
     blu_led.off()
     brd_led.on()
-    lcd.putstr("CoC Dice Roller     Version 1.0")
+    lcd.putstr("CoC Dice Roller   Version 1.0")
     sleep(3)
     lcd.clear()
 
@@ -99,7 +99,7 @@ def get_input():
                 lcd.move_to(lcd.cursor_x, lcd.cursor_y)
 
     lcd.blink_cursor_off()
-    return int(test_str)
+    return int(test_str) if test_str != "" else 0
 
 
 def toggle_led(led, toggle=6):

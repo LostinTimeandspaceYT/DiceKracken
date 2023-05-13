@@ -12,7 +12,7 @@ random.seed()
 
 
 def get_fumble(skill_val):
-    return 100 if skill_val >= 50 else 96
+    return 100 if skill_val >= 50 else 95
 
 
 class Die(object):

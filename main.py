@@ -186,11 +186,11 @@ def loop():
 
                 if re >= dice.fumble:
                     toggle_led(red_led)
-                    lcd.putstr("Shouldn't have done that!")
+                    lcd.putstr("Fumbled Push.")
 
                 elif skill_val < re < dice.fumble:  # the user failed the roll
                     red_led.on()
-                    msg1 = "\nYou failed."
+                    msg1 = "\nFailed Push."
 
                 elif 1 < re <= skill_val:
                     grn_led.on()

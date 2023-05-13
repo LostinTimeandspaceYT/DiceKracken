@@ -40,6 +40,7 @@ class Die(object):
                 i += 1
 
             tens_digit.sort()
+            tens_digit = list(set(tens_digit))
             high = 0
 
             if bonus > penalty:

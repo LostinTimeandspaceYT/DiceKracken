@@ -124,7 +124,7 @@ def loop():
         lcd.putstr("Enter your skill value:")
         skill_val = get_input()
         lcd.clear()
-        lcd.putstr("Any modifiers? C=Confirm D=Deny")
+        lcd.putstr("Any modifiers?  C=Confirm D=Deny")
         mods = get_answer()
 
         if mods != deny:

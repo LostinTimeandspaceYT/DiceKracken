@@ -33,7 +33,7 @@ def setup():
     blu_led.off()
     brd_led.on()
     lcd.putstr("CoC Dice Roller   Version 1.0")
-    sleep(3)
+    sleep(5)
     lcd.clear()
 
 
@@ -62,7 +62,7 @@ def get_answer():
 
         keypress = keypad.get_keypress()
 
-        if keypress == 'C' or keypress == 'D':  # Delete last keypress
+        if keypress == 'C' or keypress == 'D':
             ret = keypress
         else:
             lcd.putstr("Press a valid key")
@@ -124,11 +124,20 @@ def loop():
         lcd.putstr("Enter your skill value:")
         skill_val = get_input()
         lcd.clear()
-        lcd.putstr("Number of bonus   dice:")
-        bonus_die = get_input()
-        lcd.clear()
-        lcd.putstr("Number of penalty dice:")
-        penalty_die = get_input()
+        lcd.putstr("Any modifiers? C=Confirm D=Deny")
+        mods = get_answer()
+
+        if mods != deny:
+            lcd.clear()
+            lcd.putstr("Number of bonus   dice:")
+            bonus_die = get_input()
+            lcd.clear()
+            lcd.putstr("Number of penalty dice:")
+            penalty_die = get_input()
+        else:
+            bonus_die = 0
+            penalty_die = 0
+
         lcd.clear()
         dice = Die(skill_val)
         roll = dice(bonus=bonus_die, penalty=penalty_die)
@@ -141,7 +150,7 @@ def loop():
             msg = "\nSuccess!"
 
         elif dice.extreme_suc < roll <= dice.hard_suc:
-            toggle_led(grn_led, toggle=4)
+            toggle_led(grn_led)
             msg = "\nHard success!"
 
         elif 1 < roll <= dice.extreme_suc:
@@ -188,7 +197,7 @@ def loop():
                     msg1 = "\nSuccess!"
 
                 elif dice.extreme_suc < re <= dice.hard_suc:
-                    toggle_led(grn_led, toggle=4)
+                    toggle_led(grn_led)
                     msg1 = "\nHard success!"
 
                 elif 1 < roll <= dice.extreme_suc:

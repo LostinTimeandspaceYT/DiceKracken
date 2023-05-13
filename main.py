@@ -171,7 +171,7 @@ def loop():
             msg = "\nFumble..."
 
         lcd.putstr("Result: " + str(roll) + '\n' + msg)
-        sleep(2.5)
+        sleep(3.5)
 
         reset()
 

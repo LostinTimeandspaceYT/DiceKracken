@@ -32,6 +32,9 @@ _Note: Some Soldering is required_
    **SDA** to **SDA**,
    **SCL** to **SCL**
 
+## Additional Information
+_The Pimoroni Micropython uf2 file is required for this project. The lastest release of these files can be found here: https://github.com/pimoroni/pimoroni-pico/releases_
+
 
 ## Fan Material Policy  
 “This application uses trademarks and/or copyrights owned by Chaosium Inc/Moon Design Publications LLC, which are used under Chaosium Inc’s Fan Material Policy.

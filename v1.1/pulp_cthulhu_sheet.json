@@ -1,0 +1,137 @@
+{
+    "Name": "",
+    "Pronoun": "",
+    "Occupation": "",
+    "Archetype": "",
+    "Residence": "",
+    "Birthplace": "",
+    "Age": 18,
+    "Characteristics": {
+        "STR": 0,
+        "CON": 0,
+        "DEX": 0,
+        "INT": 0,
+        "SIZ": 0,
+        "POW": 0,
+        "APP": 0,
+        "EDU": 0,
+        "Hit Points": {
+            "Maximum": 0,
+            "Current": 0
+        },
+        "Luck": 0,
+        "Sanity": {
+            "Starting": 0,
+            "Current": 0,
+            "Insane": 0,
+            "Maximum": 0,
+            "Temporary Insanity": false,
+            "Indefinite Insanity": false
+        }
+    },
+    "Major Wound": false,
+    "Unconscious": false,
+    "Dying": false,
+    "Pulp Talents": {
+        "Talent 1": "",
+        "Talent 2": "",
+        "Talent 3": ""
+    },
+    "Skills": {
+        "Accounting": 5,
+        "Appraise": 5,
+        "Archaeology": 1,
+        "Art/Craft": 5,
+        "Charm": 15,
+        "Climb": 20,
+        "Computer Use": 0,
+        "Credit Rating": 0,
+        "Cthulhu Mythos": 0,
+        "Demolitions": 1,
+        "Disguise": 5,
+        "Diving": 1,
+        "Dodge": 0,
+        "Drive Auto": 20,
+        "Elec. Repair": 10,
+        "Fast Talk": 5,
+        "Fighting (Brawl)": 25,
+        "Firearms":{
+            "Handgun": 20,
+            "Rifle/Shotgun": 25
+        },
+        "First Aid": 30,
+        "History": 5,
+        "Intimidate": 15,
+        "Jump": 20,
+        "Language": {
+            "Other": 0,
+            "Own": 0
+        },
+        "Law": 5,
+        "Library Use": 20,
+        "Listen": 20,
+        "Locksmith": 1,
+        "Mech. Repair": 10,
+        "Medicine": 1,
+        "Natural World": 10,
+        "Navigate": 10,
+        "Occult": 5,
+        "Persuade": 10,
+        "Pilot": {
+            "Vehicle": 1
+        },
+        "Psychoanalysis": 1,
+        "Psychology": 1,
+        "Read Lips": 1,
+        "Ride": 5,
+        "Science": {
+            "Disciple": 1
+        },
+        "Sleight of Hand": 10,
+        "Spot Hidden": 25,
+        "Stealth": 20,
+        "Survival": {
+            "Type": 10
+        },
+        "Swim": 20,
+        "Throw": 20,
+        "Track": 10,
+        "Other": {
+            "Specialty 1": 0,
+            "Specialty 2": 0,
+            "Specialty 3": 0
+        }
+    },
+    "Combat": {
+        "Build" : 0,
+        "Damage Bonus": "",
+        "Dodge": 0,
+        "Move" : 0,
+        "Weapons" : {
+            "Weapon 1" : {
+                "Name" : "Brawl",
+                "Damage " : "1d3 + db",
+                "num of attacks" : 1,
+                "Range": "",
+                "Ammo": null,
+                "Malf": null
+            },
+            "Weapon 2" : {
+                "Name" : "",
+                "Damage " : "",
+                "num of attacks" : 1,
+                "Range": "",
+                "Ammo": null,
+                "Malf": null
+            },
+            "Weapon 3" : {
+                "Name" : "",
+                "Damage " : "",
+                "num of attacks" : 1,
+                "Range": "",
+                "Ammo": null,
+                "Malf": null
+            }
+        }
+    }
+}

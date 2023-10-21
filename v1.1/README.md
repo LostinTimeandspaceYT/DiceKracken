@@ -15,7 +15,7 @@ New and improved version of the CoC Dice Roller
 
 ## Bill of Materials
 1x USB-Micro Cable + Wall adapter  
-1x Pico-W  
+1x Pico-W: https://shop.pimoroni.com/products/raspberry-pi-pico-w?variant=40059369619539  
 1x Pimoroni Pico RGB Keypad Base: https://shop.pimoroni.com/products/pico-rgb-keypad-base?variant=32369517166675  
 1x LCD Display  
 1x I2C Adapter such as the PCF8574  

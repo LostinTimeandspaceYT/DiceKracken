@@ -19,3 +19,22 @@ We are expressly prohibited from charging you to use or access this content. Thi
 For more information about Chaosium Inc’s products, please visit www.chaosium.com.”
 
 Link: https://www.chaosium.com/fan-material-policy/
+
+## Bill of Materials
+1x USB-Micro Cable + Wall adapter
+1x Pico-W
+1x Pimoroni Pico RGB Keypad Base: https://shop.pimoroni.com/products/pico-rgb-keypad-base?variant=32369517166675
+1x LCD Display
+1x I2C Adapter such as the PCF8574
+4x M -> F jumper wires
+
+## Assembly
+_Note: Some Soldering is required_
+
+1. Solder the male ends of the jumper wires to **VSYS**(Pin 39), **-**(GND Pin 38), **SDA**(GP 4), **SCL**(GP 5) onto the Keypad base
+2. Mount the Pico-W in the proper orientation as pictured on the Keypad
+3. Connect the female ends of the jumper wires to the following:
+   **Vcc** to **VSYS**,
+   **GND** to **-**,
+   **SDA** to **SDA**,
+   **SCL** to **SCL**

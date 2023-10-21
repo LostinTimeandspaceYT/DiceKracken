@@ -12,7 +12,7 @@ New and improved version of the CoC Dice Roller
 - Ability to update values from the app
 - Web API support for users to download their own character sheets
 
-## Fan Material Policy:
+## Fan Material Policy  
 “This application uses trademarks and/or copyrights owned by Chaosium Inc/Moon Design Publications LLC, which are used under Chaosium Inc’s Fan Material Policy.
 We are expressly prohibited from charging you to use or access this content. This application is not published, endorsed, or specifically approved by Chaosium Inc.
 For more information about Chaosium Inc’s products, please visit www.chaosium.com.”

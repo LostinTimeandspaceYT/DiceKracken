@@ -10,7 +10,8 @@ New and improved version of the CoC Dice Roller
   
 ## Future Improvements/ Wishlist
 - Finish skill roll selection menu
-- Ability to update values from the app
+- Ability to update values from the device
+- Allow user to select level of success when making a roll
 - Web API support for users to download their own character sheets
 
 ## Bill of Materials
@@ -27,6 +28,7 @@ _Note: Some Soldering is required_
 1. Solder the male ends of the jumper wires to **VSYS**(Pin 39), **-**(GND Pin 38), **SDA**(GP 4), **SCL**(GP 5) onto the Keypad base
 2. Mount the Pico-W in the proper orientation as pictured on the Keypad
 3. Connect the female ends of the jumper wires to the following:
+   LCD        Keypad
    **Vcc** to **VSYS**,
    **GND** to **-**,
    **SDA** to **SDA**,

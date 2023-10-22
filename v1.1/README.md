@@ -28,10 +28,10 @@ _Note: Some Soldering is required_
 1. Solder the male ends of the jumper wires to **VSYS**(Pin 39), **-**(GND Pin 38), **SDA**(GP 4), **SCL**(GP 5) onto the Keypad base
 2. Mount the Pico-W in the proper orientation as pictured on the Keypad
 3. Connect the female ends of the jumper wires to the following:  
-   **Vcc** to **VSYS**,
-   **GND** to **-**,
-   **SDA** to **SDA**,
-   **SCL** to **SCL**
+   **Vcc** to **VSYS**,  
+   **GND** to **-**,  
+   **SDA** to **SDA**,  
+   **SCL** to **SCL**  
 
 ## Additional Information
 _The Pimoroni Micropython uf2 file is required for this project. The lastest release of these files can be found here: https://github.com/pimoroni/pimoroni-pico/releases_

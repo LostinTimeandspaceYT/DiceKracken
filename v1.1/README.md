@@ -9,7 +9,8 @@ New and improved version of the CoC Dice Roller
 - Menu support for skill roll selection
 
 ## In Progress
-Fleshing out CharacterSheet class
+- Fleshing out CharacterSheet class
+- Support for varying screen dimensions
 
 ## Future Improvements/ Wishlist
 - Ability to update values from the device

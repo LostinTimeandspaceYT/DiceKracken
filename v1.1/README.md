@@ -17,6 +17,11 @@ New and improved version of the CoC Dice Roller
 - Allow user to select level of success when making a roll
 - Web API support for users to download their own character sheets
 
+## Known Issues
+- When trying to traverse up over the top of the list, the cursor will move down to the bottom of the screen.
+
+# Putting it Together
+
 ## Bill of Materials
 1x USB-Micro Cable + Wall adapter  
 1x Pico-W: https://shop.pimoroni.com/products/raspberry-pi-pico-w?variant=40059369619539  

@@ -24,10 +24,12 @@ _DOWN_MENU = const(15)
 
 # change these for your particular screen
 _NUM_OF_ROWS = const(2) 
-_MUN_OF_COLS = const(16)
+_NUM_OF_COLS = const(16)
+
+
 i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=100_000)
 i2c_addr = i2c.scan()[1]  # in this build address[0] is the keypad io
-lcd = I2cLcd(i2c, i2c_addr, _NUM_OF_ROWS, _MUN_OF_COLS)
+lcd = I2cLcd(i2c, i2c_addr, _NUM_OF_ROWS, _NUM_OF_COLS)
 
 # Keypad
 keypad = KeypadController()
@@ -69,28 +71,43 @@ def select_skill_menu(list_of_stuff):
     ret = 0
     keypress = 0
     lcd.hide_cursor()
-    current = 1
+    current = 0
+    cursor_index = 0
     max_len = len(list_of_stuff)
     
     while keypress != _CONFIRM:
-        str_1 = ">:" + list_of_stuff[current - 1] + '\n'
-        str_2 = "  " + list_of_stuff[current] + '\n'
-        lcd.putstr(str_1)
-        lcd.putstr(str_2)
-        # print(">:", list_of_stuff[current - 1])
-        # print("  ",list_of_stuff[current])
-        
+        for i in range(_NUM_OF_ROWS):
+            if i == cursor_index:
+                msg = '>:' 
+            else:
+                msg = '  '
+                
+            msg += list_of_stuff[current + i] + '\n'
+            lcd.putstr(msg)
+
         keypress = keypad.get_button_press()
         
         if keypress == _UP_MENU:
-            current -= 1
+            cursor_index -= 1
+            
         elif keypress == _DOWN_MENU:
+            cursor_index += 1
+        
+        
+        if cursor_index >= _NUM_OF_ROWS:
+            cursor_index = 0
             current += 1
-
-        if current >= max_len or current < 1:
-            current = 1
-        lcd.clear()
-        sleep(.25)      
+            lcd.clear()
+            
+        elif cursor_index < 0:
+            cursor_index = _NUM_OF_ROWS - 1
+            current -= 1
+            lcd.clear()
+        
+        if (current + cursor_index) >= max_len or current < 1:
+            current = 0
+            
+        sleep(.1)      
 
 def get_input():
     """

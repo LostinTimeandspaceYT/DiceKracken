@@ -44,7 +44,7 @@ _Note: Some Soldering is required_
 _The Pimoroni Micropython uf2 file is required for this project. The lastest release of these files can be found here: https://github.com/pimoroni/pimoroni-pico/releases_
 
 
-## Fan Material Policy  
+# Fan Material Policy  
 “This application uses trademarks and/or copyrights owned by Chaosium Inc/Moon Design Publications LLC, which are used under Chaosium Inc’s Fan Material Policy.
 We are expressly prohibited from charging you to use or access this content. This application is not published, endorsed, or specifically approved by Chaosium Inc.
 For more information about Chaosium Inc’s products, please visit www.chaosium.com.”

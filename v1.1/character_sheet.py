@@ -1,87 +1,124 @@
+"""
+Module for manipulating and parsing through complex json files in
+Micropython.
+"""
+__author__ = "Nathan Winslow"
+__copyright__ = "MIT"
+
 import json
 from collections import OrderedDict
 
-# Examples
-example_pulp_character = 'pulp_cthulhu_sheet.json'
 
-
-class CharacterSheetParser:  #TODO: find a way to get values recursively
+class JsonParser:
     """
-    Helper Class for Character Sheets.
-    As of v1.2.1 MicroPython's json library
-    does not have a ``sort_keys`` kwarg, so
-    we must parse and sort the keys ourselves.
+    For when we must parse and sort
+    complex json files ourselves.
     """
-    
-    def load_character_sheet(fpath: str):
-        character_str = ""
-        with open(fpath,'r') as sheet:
-            for entry in sheet:
-                character_str += entry
-        tmp_sheet = json.loads(character_str)
-        return CharacterSheetParser.sort_character_sheet(tmp_sheet)
+    @classmethod
+    def load_json_file(cls, fpath: str):
+        json_str = ""
+        with open(fpath,'r') as file:
+            for entry in file:
+                json_str += entry
+        tmp_file = json.loads(json_str)
+        return cls.sort_json_file(tmp_file)
 
-
-    def sort_character_sheet(sheet: dict):
-        sorted_sheet = OrderedDict(sorted(sheet.items()))
-        for k, v in sorted_sheet.items():
+    @classmethod
+    def sort_json_file(cls, d: dict):
+        sorted_file = OrderedDict(sorted(d.items()))
+        for k, v in sorted_file.items():
             if isinstance(v, dict):
-                sorted_dict = CharacterSheetParser.sort_character_sheet(v)
-                sorted_sheet.update({k : sorted_dict})
-        return sorted_sheet
+                sorted_dict = cls.sort_json_file(v)
+                sorted_file.update({k : sorted_dict})
+        return sorted_file
 
-
-    def pretty_print_dict(d: dict, indent=0, ret_str=''):
+    @classmethod
+    def pretty_print_keys(cls, d: dict, indent=0, ret_str=''):
         """
-        Helper for printing skills, attributes, gear, etc.
-        to screens
+        Helper for nested dictionary keys to screens.
         
-        the default behavior is indent subentries by 2 spaces
+        The default behavior is indent subentries by 2 spaces
         per depth level.
         
         ex.
-            skill_1
-              sub_skill_1
-                sub_sub_skill_1
+            Language
+              English
+              French
                 
-            skill_2
+            Weapons
+              Firearms
+                Pistol
+                  .45 Automatic
+                Shotgun
         """
         for k, v in d.items():
             ret_str = '  ' * indent + str(k)
             yield ret_str
             if isinstance(v, dict):
-               yield from CharacterSheetParser.pretty_print_dict(v, indent + 1)
+                yield from cls.pretty_print_keys(v, indent + 1)
+               
+    @classmethod
+    def get_all_vals(cls, d: dict):
+        for v in d.values():
+            if isinstance(v, dict):
+                yield from cls.get_all_vals(v)
+            else:
+                yield v
     
-    def get_keys(d: dict) -> list[str]:
+    @classmethod
+    def get_keys(cls, d: dict) -> list[str]:
         keys = []
-        for key in CharacterSheetParser.pretty_print_dict(d):
+        for key in cls.pretty_print_keys(d):
             keys.append(key)
         return keys
     
-    def get_vals(d: dict) -> list:
+    @classmethod
+    def get_vals(cls, d: dict) -> list:
         vals = []
-        for k, value in d.items():
+        for value in cls.get_all_vals(d):
             vals.append(value)
         return vals
     
-    def get_value_at_key(d, key: str):
+    @classmethod
+    def get_value_at_key(cls, d: dict, key: str):
         if key in d:
             return d[key]
         for v in d.values():
             if isinstance(v, dict):
-                return CharacterSheetParser.get_value_at_key(v, key)
+                value = cls.get_value_at_key(v, key)
+                if value is not None:  # the value could be 0, which we do want to return
+                    return value
+        return 'Null'
     
 
 class CharacterSheet:
+    """
+    Base class for all character sheets in the future.
+    """
     
     def __init__(self, fpath: str):
-        self.character_sheet = CharacterSheetParser.load_character_sheet(fpath)
-        self.skills_list = CharacterSheetParser.get_keys(self.character_sheet['Skills'])
+        self.character_sheet = JsonParser.load_json_file(fpath)     
         
     def __call__(self):
         return self.character_sheet
     
+    def get_value_at(self, key: str):
+        value = JsonParser.get_value_at_key(self.character_sheet, key)
+        return value
+    
+    @property
+    def age(self):
+        return self.character_sheet['Age']
+    
+    @property
+    def name(self):
+        return self.character_sheet['Name']
+    
+    @property
+    def pronoun(self):
+        return self.character_sheet['Pronoun']
+    
     @property
     def skills(self):
-        return self.skills_list
+        return JsonParser.get_keys(self.character_sheet['Skills'])
         

@@ -8,28 +8,13 @@ __copyright__ = "MIT"
 from micropython import const
 from machine import I2C, Pin
 from time import sleep
-from collections import OrderedDict
-import json
+from character_sheet import CharacterSheet
 from I2C_LCD import I2cLcd
 from diceroller import Die
 from kpc import KeypadController, Color
 
 
-# Globals
-i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=100_000)
-i2c_addr = i2c.scan()[1]  # in this build address[0] is the keypad io
-
-lcd = I2cLcd(i2c, i2c_addr, 2, 16)
-keypad = KeypadController()
-
-character_str = ""
-with open('pulp_cthulhu_sheet.json','r') as sheet:
-    for entry in sheet:
-        character_str += entry
-json_sheet = json.loads(character_str)
-
-
-# Menu buttons
+# Menu buttons #
 _CONFIRM = const(12)
 _DENY = const(13)
 _ACCEPT = const(10)
@@ -37,26 +22,16 @@ _BACKSPACE = const(11)
 _UP_MENU = const(14)
 _DOWN_MENU = const(15)
 
+# change these for your particular screen
+_NUM_OF_ROWS = const(2) 
+_MUN_OF_COLS = const(16)
+i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=100_000)
+i2c_addr = i2c.scan()[1]  # in this build address[0] is the keypad io
+lcd = I2cLcd(i2c, i2c_addr, _NUM_OF_ROWS, _MUN_OF_COLS)
 
-def sort_character_sheet(sheet):
-    sorted_sheet = OrderedDict(sorted(sheet.items()))
-    for k, v in sorted_sheet.items():
-        if isinstance(v, dict):
-            sorted_dict = sort_character_sheet(v)
-            sorted_sheet.update({k : sorted_dict})
-    return sorted_sheet
+# Keypad
+keypad = KeypadController()
 
-
-def pretty_print_dict(d, indent=0, ret_str=''):
-    for k, v in d.items():
-        ret_str = '  ' * indent + str(k)
-        yield ret_str
-        if isinstance(v, dict):
-           yield from pretty_print_dict(v, indent + 1)
-        else:
-            # print('  ' * (indent + 1) + str(v))
-            pass
-        
 
 def start_up():
     """ start up logic """
@@ -64,11 +39,9 @@ def start_up():
     sleep(5)
     lcd.clear()
 
-
 def reset_lcd():
     lcd.clear()
     lcd.blink_cursor_off()
-
 
 def get_answer():
     """
@@ -117,8 +90,7 @@ def select_skill_menu(list_of_stuff):
         if current >= max_len or current < 1:
             current = 1
         lcd.clear()
-        sleep(.25)
-        
+        sleep(.25)      
 
 def get_input():
     """
@@ -211,6 +183,7 @@ def determine_result(die, res) -> bool:
     return failed
 
 
+# TODO: Wrap up loop into a Game class
 def loop():
 
     running = True
@@ -258,14 +231,10 @@ def loop():
 
         reset_lcd()
 
-
 def main():
-    skills = []
-    character_sheet = sort_character_sheet(json_sheet)
-    for skill in (pretty_print_dict(character_sheet['Skills'])):
-        # print(skill)
-        skills.append(skill)
-    select_skill_menu(skills)
+    my_file = 'pulp_cthulhu_sheet.json'
+    my_character = CharacterSheet(my_file)
+    select_skill_menu(my_character.skills)
     start_up()
     loop()
 

@@ -7,7 +7,10 @@ New and improved version of the CoC Dice Roller
   - Added support for controlling the keypad with the kpc.py module
 - Support for reading characters sheets via JSON (example sheet provided !)
 - Menu support for skill roll selection (still a work in progress)
-  
+
+## In Progress
+Fleshing out CharacterSheet class
+
 ## Future Improvements/ Wishlist
 - Finish skill roll selection menu
 - Ability to update values from the device

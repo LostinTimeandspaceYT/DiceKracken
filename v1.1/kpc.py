@@ -53,9 +53,8 @@ class KeypadController:
             button = 0
             if self._prev_btn_states != btn_states:
                 self._prev_btn_states = btn_states
+                
                 # First we have to find the button that was pressed
-
-
                 for find in range(btn_range):
                     if btn_states & 0x01 > 0:
                         # make sure no other buttons were pressed
@@ -120,9 +119,7 @@ class KeypadController:
                     self.light_button(button, self.buttons[button])
 
         self.reset_number_buttons()
-        return int(result)
-
-                    
+        return int(result)               
             
     def light_button(self, button: int, color: tuple):
         """
@@ -150,7 +147,6 @@ class KeypadController:
         """        
         for i in range(vals):
             self.keypad.illuminate(i, *color)
-            
         self.keypad.update()
 
     def default_layout(self):

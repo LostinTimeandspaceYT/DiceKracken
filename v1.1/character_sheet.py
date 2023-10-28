@@ -77,7 +77,6 @@ class CharacterSheet:
     def __init__(self, fpath: str):
         self.character_sheet = CharacterSheetParser.load_character_sheet(fpath)
         self.skills_list = CharacterSheetParser.get_keys(self.character_sheet['Skills'])
-        s
         
     def __call__(self):
         return self.character_sheet

@@ -8,7 +8,7 @@ __copyright__ = "MIT"
 from machine import I2C, Pin
 from time import sleep
 from I2C_LCD import I2cLcd
-from DiceRoller import Die
+from dice_roller import Die
 from Keypad import Keypad
 
 # Globals

@@ -6,13 +6,12 @@ New and improved version of the CoC Dice Roller
   
   - Added support for controlling the keypad with the kpc.py module
 - Support for reading characters sheets via JSON (example sheet provided !)
-- Menu support for skill roll selection (still a work in progress)
+- Menu support for skill roll selection
 
 ## In Progress
 Fleshing out CharacterSheet class
 
 ## Future Improvements/ Wishlist
-- Finish skill roll selection menu
 - Ability to update values from the device
 - Allow user to select level of success when making a roll
 - Web API support for users to download their own character sheets
@@ -34,7 +33,7 @@ _Note: Some Soldering is required_
    **GND** to **-**,  
    **SDA** to **SDA**,  
    **SCL** to **SCL**  
-
+        
 ## Additional Information
 _The Pimoroni Micropython uf2 file is required for this project. The lastest release of these files can be found here: https://github.com/pimoroni/pimoroni-pico/releases_
 

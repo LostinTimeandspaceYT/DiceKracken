@@ -1,12 +1,13 @@
-# Dice_Roller  
-MicroPython repo used to create electronic Call of Cthulhu dice roller
+# Dice Roller
+_An electronic character sheet & Dice roller_
 
-Target system: Raspberry Pi Pico
+## v0.1
+- Uses a 4x4 button matrix for input
+- No character sheet integration
+- Call of Cthulhu Only
+- Deprecated
 
-
-## BOM:
-- Raspberry Pi Pico
-- 4x4 Keypad
-- 16x2 LCD with I2C module (PCF8574)
-- 3x 220 Ohm resistors
-- RGB LED or 3x LEDS
+## v1.1
+- Uses a Pimoroni Keypad base (details in README)
+- Character sheet integration vis JSON
+- Plan to support web API

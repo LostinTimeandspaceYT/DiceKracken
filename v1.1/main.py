@@ -95,15 +95,15 @@ def select_skill_menu(list_of_stuff):
         
         
         if cursor_index >= _NUM_OF_ROWS:
-            cursor_index = 0
+            cursor_index = 0 # we may want to set to _NUM_OF_ROWS - 1
             current += 1
             lcd.clear()
             
         elif cursor_index < 0:
-            cursor_index = _NUM_OF_ROWS - 1
+            cursor_index = _NUM_OF_ROWS - 1 # and this to 0 depending on desired behavior
             current -= 1
             lcd.clear()
-        
+            
         if (current + cursor_index) >= max_len or current < 1:
             current = 0
             

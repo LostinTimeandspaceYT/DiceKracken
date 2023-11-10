@@ -1,20 +1,3 @@
-"""
-This program is intended to determine results of a d100 for Call of Cthulhu
-and other BRP RPGs.
-"""
-
-__author__ = "Nathan Winslow"
-__copyright__ = "MIT"
-
-import random
-
-random.seed()
-
-
-def get_fumble(skill_val):
-    return 100 if skill_val >= 50 else 95
-
-
 class Die(object):
 
     def __init__(self, skill_val):
@@ -50,7 +33,7 @@ class Die(object):
                 high = tens_digit[-1]
 
             result = high + ones_digit
-            if result == 0 and penalty > bonus:
+            if result == 0 and penalty_die > bonus_die:
                 result = 100
 
             # so the user gets the lowest possible value.

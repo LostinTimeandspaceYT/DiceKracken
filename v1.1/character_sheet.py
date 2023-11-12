@@ -83,18 +83,15 @@ class JsonParser:
     def get_value_at_key(cls, d: dict, key: str):
         if key in d:
             return d[key]
+        
         for v in d.values():
             if isinstance(v, dict):
                 value = cls.get_value_at_key(v, key)
                 if value is not None:  # the value could be 0, which we do want to return
                     return value
-        return 'Null'
     
 
 class PulpCharacter:
-    """
-    Base class for all character sheets in the future.
-    """
     
     def __init__(self, fpath: str):
         self.character_sheet = JsonParser.load_json_file(fpath)   
@@ -104,7 +101,7 @@ class PulpCharacter:
     def __call__(self):
         return self.character_sheet
     
-    def get_value_at(self, key: str): #FIXME: I don't work :( in nested dicts yet...
+    def get_value_at(self, key: str):
         value = JsonParser.get_value_at_key(self.character_sheet, key)
         return value
     
@@ -121,7 +118,6 @@ class PulpCharacter:
         else:
             return (6, 1)
 
-
     def roll_damage(self, num_of_sides: int, num_of_dice: int) -> int:
         return ((num_of_dice * randint(1, num_of_sides)) + (self.db[1] * randint(1, self.db[0])))
 
@@ -129,7 +125,7 @@ class PulpCharacter:
         modifier: int = abs(bonus_die - penalty_die)
         self.prev_modifier = modifier
         if modifier == 0:
-            return randint(1, 100)
+            return randint(1, 100)  
         else:
             ones_digit = randint(0, 9)
             tens_place = [randint(0, 9) * 10,]

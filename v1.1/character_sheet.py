@@ -62,11 +62,9 @@ class CthulhuCharacter:
 
     def get_skill_at_difficulty(self, skill_val: int, level: str) -> int:
         if level == "Hard":
-            return skill_val // 2
-        
+            return skill_val // 2      
         elif level == "Extreme":
             return skill_val // 5
-        
         else:
             return skill_val
 

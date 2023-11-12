@@ -90,9 +90,7 @@ class JsonParser:
                 if value is not None:  # the value could be 0, which we do want to return
                     return value
     
-
-class PulpCharacter:
-    
+class CthulhuCharacter:
     def __init__(self, fpath: str):
         self.character_sheet = JsonParser.load_json_file(fpath)   
         self.prev_modifier = 0
@@ -174,18 +172,11 @@ class PulpCharacter:
     def get_fumble(self, skill_val):
         return 100 if skill_val >= 50 else 96
     
-    def spend_luck(self, amount: int):
-        self.character_sheet["Characteristics"]["Luck"] -= amount
-
     def take_damage(self, amount: int):
         self.character_sheet['Characteristics']['Hit Points']['Current'] -= amount
 
     def lose_sanity(self, amount: int):
         self.character_sheet['Characteristics']['Sanity']['Current'] -= amount
-
-    @property
-    def current_luck(self):
-        return self.character_sheet["Characteristics"]["Luck"]
     
     @property
     def age(self):
@@ -202,10 +193,6 @@ class PulpCharacter:
     @property
     def skills(self):
         return JsonParser.get_keys(self.character_sheet['Skills'])
-    
-    @property
-    def talents(self):
-        return JsonParser.get_keys(self.character_sheet['Pulp Talents'])
 
     @property
     def current_sanity(self):
@@ -214,4 +201,20 @@ class PulpCharacter:
     @property
     def current_hp(self):
         return self.character_sheet['Characteristics']['Hit Points']['Current']
+    
+    @property
+    def current_luck(self):
+        return self.character_sheet["Characteristics"]["Luck"]
         
+
+class PulpCharacter(CthulhuCharacter):
+    
+    def __init__(self, fpath: str):
+        super().__init__(fpath)
+    
+    def spend_luck(self, amount: int):
+        self.character_sheet["Characteristics"]["Luck"] -= amount
+       
+    @property
+    def talents(self):
+        return JsonParser.get_keys(self.character_sheet['Pulp Talents'])

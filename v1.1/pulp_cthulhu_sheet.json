@@ -1,9 +1,9 @@
 {
     "Name": "Randolph Carter",
     "Pronoun": "He/Him",
-    "Occupation": "",
-    "Archetype": "",
-    "Residence": "",
+    "Occupation": "Student",
+    "Archetype": "Egghead",
+    "Residence": "Arkham, MA",
     "Birthplace": "",
     "Age": 18,
     "Characteristics": {
@@ -15,6 +15,11 @@
         "POW": 75,
         "APP": 50,
         "EDU": 70,
+        "Magic Points": {
+            "Maximum": 24,
+            "Current": 12
+        	
+        },
         "Hit Points": {
             "Maximum": 0,
             "Current": 0
@@ -33,7 +38,7 @@
     "Unconscious": false,
     "Dying": false,
     "Pulp Talents": {
-        "Talent 1": "Sharp Witted",
+        "Sharp Witted": "Gain a bonus die on INT (not Idea) rolls",
         "Talent 2": "",
         "Talent 3": ""
     },
@@ -133,5 +138,10 @@
                 "Malf": null
             }
         }
-    }
+    },
+    "Phobias":{
+    	"Phobia 1": "",
+    	"Phobia 2": "",
+	    "Phobia 3": ""
+    }   	
 }

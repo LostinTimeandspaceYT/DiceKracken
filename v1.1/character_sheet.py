@@ -68,7 +68,6 @@ class CthulhuCharacter:
         else:
             return skill_val
 
-
     def get_fumble(self, skill_val):
         return 100 if skill_val >= 50 else 96
     

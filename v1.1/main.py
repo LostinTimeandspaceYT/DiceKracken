@@ -8,9 +8,9 @@ __copyright__ = "MIT"
 from micropython import const
 from machine import I2C, Pin
 from time import sleep
-from character_sheet import CharacterSheet
+from character_sheet import PulpCharacter
 from I2C_LCD import I2cLcd
-from diceroller import Die
+from dice import Dice
 from kpc import KeypadController, Color
 
 
@@ -23,8 +23,8 @@ _UP_MENU = const(14)
 _DOWN_MENU = const(15)
 
 # change these for your particular screen
-_NUM_OF_ROWS = const(2) 
-_NUM_OF_COLS = const(16)
+_NUM_OF_ROWS = const(4) 
+_NUM_OF_COLS = const(20)
 
 
 i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=100_000)
@@ -37,7 +37,9 @@ keypad = KeypadController()
 
 def start_up():
     """ start up logic """
-    lcd.putstr("CoC Dice Roller   Version 1.1")
+    msg = " " * (_NUM_OF_COLS - 16)
+    msg += "DICE KRAKEN\n    Version 1.1"
+    lcd.putstr(msg)
     sleep(5)
     lcd.clear()
 
@@ -67,8 +69,7 @@ def get_answer():
 
     return ret
 
-def select_skill_menu(list_of_stuff):
-    ret = 0
+def select_skill_menu(list_of_stuff):  
     keypress = 0
     lcd.hide_cursor()
     current = 0
@@ -96,15 +97,15 @@ def select_skill_menu(list_of_stuff):
         
         if cursor_index >= _NUM_OF_ROWS:
             cursor_index = 0 # we may want to set to _NUM_OF_ROWS - 1
-            current += 1
+            current += (_NUM_OF_ROWS - 1)
             lcd.clear()
             
         elif cursor_index < 0:
             cursor_index = _NUM_OF_ROWS - 1 # and this to 0 depending on desired behavior
-            current -= 1
+            current -= (_NUM_OF_ROWS - 1)
             lcd.clear()
             
-        if (current + cursor_index) >= max_len or current < 1:
+        if (current + (_NUM_OF_ROWS - 1)) >= max_len or current < 0:
             current = 0
             
         sleep(.1)      
@@ -124,9 +125,9 @@ def get_input():
         keypress = keypad.get_button_press()
 
         if 0 <= keypress <= 9:
-            char = str(keypress)
-            lcd.putchar(char)
-            test_str += char   
+            usr_in = str(keypress)
+            lcd.putchar(usr_in)
+            test_str += usr_in   
             if first:
                 keypad.light_button(keypress, Color.pink)
                 first = False
@@ -138,7 +139,7 @@ def get_input():
             if first:
                 keypad.light_button(int(test_str), Color.black)
             else:
-                keypad.light_button(int(char), Color.black)
+                keypad.light_button(int(usr_in), Color.black)  # We are bounded to 16 Python!!!
                 first = True
                 
             test_str = test_str[:-1]
@@ -199,61 +200,12 @@ def determine_result(die, res) -> bool:
     reset_lcd()
     return failed
 
-
-# TODO: Wrap up loop into a Game class
-def loop():
-
-    running = True
-    while running:
-        lcd.putstr("Enter your skill value:")
-        skill_val = get_input()
-        lcd.clear()
-        lcd.putstr("Any modifiers?  C=Confirm D=Deny")
-        mods = get_answer()
-
-        if mods != _DENY:
-            lcd.clear()
-            lcd.putstr("Num of bonus      dice:")
-            bonus_die = get_input()
-            lcd.clear()
-            lcd.putstr("Num of penalty    dice:")
-            penalty_die = get_input()
-        else:
-            bonus_die = 0
-            penalty_die = 0
-
-        lcd.clear()
-        dice = Die(skill_val)
-        roll = dice(bonus_die, penalty_die)
-        
-        failed = determine_result(dice, roll)
-        if failed and roll < dice.fumble:
-            lcd.putstr("Push the roll?  C=Confirm D=Deny")
-            push = get_answer()
-
-            if push != _DENY:
-                reset_lcd()
-                result = dice(0,0)
-                failed_push = determine_result(dice, result)
-                if failed_push:
-                    lcd.putstr("Failing pushed   rolls is bad!")
-                    sleep(2)
-                    reset_lcd()
-                    
-        lcd.putstr("Roll again?     C=Confirm D=Deny")
-        again = get_answer()
-
-        if again == _DENY:
-            running = False
-
-        reset_lcd()
-
 def main():
     my_file = 'pulp_cthulhu_sheet.json'
-    my_character = CharacterSheet(my_file)
+    my_character = PulpCharacter(my_file)
     select_skill_menu(my_character.skills)
+    reset_lcd()
     start_up()
-    loop()
 
 
 try:

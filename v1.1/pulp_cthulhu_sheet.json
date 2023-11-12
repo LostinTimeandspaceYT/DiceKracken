@@ -1,25 +1,25 @@
 {
-    "Name": "",
-    "Pronoun": "",
+    "Name": "Randolph Carter",
+    "Pronoun": "He/Him",
     "Occupation": "",
     "Archetype": "",
     "Residence": "",
     "Birthplace": "",
     "Age": 18,
     "Characteristics": {
-        "STR": 0,
-        "CON": 0,
-        "DEX": 0,
-        "INT": 0,
-        "SIZ": 0,
-        "POW": 0,
-        "APP": 0,
-        "EDU": 0,
+        "STR": 50,
+        "CON": 50,
+        "DEX": 60,
+        "INT": 80,
+        "SIZ": 60,
+        "POW": 75,
+        "APP": 50,
+        "EDU": 70,
         "Hit Points": {
             "Maximum": 0,
             "Current": 0
         },
-        "Luck": 0,
+        "Luck": 67,
         "Sanity": {
             "Starting": 0,
             "Current": 0,
@@ -33,7 +33,7 @@
     "Unconscious": false,
     "Dying": false,
     "Pulp Talents": {
-        "Talent 1": "",
+        "Talent 1": "Sharp Witted",
         "Talent 2": "",
         "Talent 3": ""
     },
@@ -64,8 +64,8 @@
         "Intimidate": 15,
         "Jump": 20,
         "Language": {
-            "Other": 0,
-            "Own": 0
+            "Latin": 20,
+            "Own": 70
         },
         "Law": 5,
         "Library Use": 20,

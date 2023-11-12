@@ -1,19 +1,20 @@
 """
-Module for manipulating and parsing through complex json files in
-Micropython.
+Module for Character sheet manipulation 
 """
 __author__ = "Nathan Winslow"
 __copyright__ = "MIT"
 
 from json_parser import JSONParser
-from random import seed, randint
+from dice import CthulhuDice
 
     
 class CthulhuCharacter:
+
     def __init__(self, fpath: str):
         self.character_sheet = JSONParser.load_json_file(fpath)   
-        self.prev_modifier = 0
+        self.prev_skill_modifier = 0  # used when pushing rolls.
         self.db = self.damage_bonus()
+        self.skills_to_improve = []  # Used during Development phase
         
     def __call__(self):
         return self.character_sheet
@@ -22,80 +23,73 @@ class CthulhuCharacter:
         value = JSONParser.get_value_at_key(self.character_sheet, key)
         return value
     
-    def damage_bonus(self):
+    def damage_bonus(self) -> tuple:
+        """ Returns a tuple (num_dice, num_side) such that -2 and -1 are const"""
         val = self.character_sheet['Characteristics']['STR'] + self.character_sheet['Characteristics']['SIZ']
         if val <= 64:
-            return (1, -2)
+            return (-2, 1) 
         elif 65 <= val <= 84:
-            return (1, -1)
+            return (-1, 1)
         elif 85 <= val <= 124:
             return (0, 0)
         elif 125 <= val <= 164:
-            return (4, 1) # num_of_sides, num_of_dice
+            return (1, 4) 
         else:
-            return (6, 1)
+            return (1, 6)
 
-    def roll_damage(self, num_of_sides: int, num_of_dice: int) -> int:
-        return ((num_of_dice * randint(1, num_of_sides)) + (self.db[1] * randint(1, self.db[0])))
+    def roll_damage(self, dmg_die: tuple) -> int:
+        if self.db[0] == 0:
+            return CthulhuDice.roll(*dmg_die)
+        else:  # to prevent empty range
+            return CthulhuDice.roll_multiple([dmg_die, self.db])
 
-    def make_skill_roll(self, bonus_die: int, penalty_die: int) -> int:
-        modifier: int = abs(bonus_die - penalty_die)
-        self.prev_modifier = modifier
-        if modifier == 0:
-            return randint(1, 100)  
+    def cast_spell(self, spell_name: str):
+        print(f"Casting {spell_name}!")
+        # TODO: Flesh out spell logic
+
+    def make_skill_roll(self, base_val: int, difficulty: str, bonus_die: int, penalty_die: int) -> bool:
+        """
+        makes a skill roll based on the difficulty 
+        with any modifiers (bonus/penatly dice)
+        
+        :note: this method does not account for fumbles.
+
+        :return: True if passed, False otherwise
+        """
+        skill_val = self.get_skill_at_difficulty(base_val, difficulty)
+        roll = CthulhuDice.roll_skill(bonus_die, penalty_die)
+        return True if roll <= skill_val else False
+
+    def get_skill_at_difficulty(self, skill_val: int, level: str) -> int:
+        if level == "Hard":
+            return skill_val // 2
+        
+        elif level == "Extreme":
+            return skill_val // 5
+        
         else:
-            ones_digit = randint(0, 9)
-            tens_place = [randint(0, 9) * 10,]
-            for _ in range(modifier):
-                tens_place.append(randint(0, 9) * 10)
+            return skill_val
 
-            tens_place.sort()
-            tens_place = list(set(tens_place))
-            tens_digit = tens_place[0] if bonus_die > penalty_die else tens_place[-1]
-            
-            if (tens_digit + ones_digit) == 0:
-                return tens_place[1] if bonus_die > penalty_die else 100
-            return (tens_digit + ones_digit)
-            
-    def determine_skill_result(self, skill_val: int, roll: int):
-        """
-        determines the level of success of a skill roll
-        and if the player can push that roll
-        
-        :returns: str, bool "rate of success", True if can push, False otherwise
-        """
-        fumble = self.get_fumble(skill_val)
-        result = f"{roll} out of {skill_val}: "
-        can_push = True
-        if roll == 1:
-            result += "Critical success!"
-        
-        elif roll <= (skill_val // 5):
-            result += "Extreme Success!"
-        
-        elif roll <= (skill_val // 2):
-            result += "Hard success!"
-        
-        elif roll <= skill_val:
-            result +=  "Success!"
-        
-        elif skill_val < roll < fumble:
-            result = "Failed."
-        
-        else: # roll >= fumble
-            result = "Fumble..."
-            can_push = False
-
-        return result, can_push
 
     def get_fumble(self, skill_val):
         return 100 if skill_val >= 50 else 96
     
-    def take_damage(self, amount: int):
-        self.character_sheet['Characteristics']['Hit Points']['Current'] -= amount
+    def change_hit_points(self, amount: int):
+        """
+        For regaining hit points, pass in a
+        positive integer.
+        For taking damage, pass in a negative
+        integer.
+        """
+        self.character_sheet['Characteristics']['Hit Points']['Current'] += amount
 
-    def lose_sanity(self, amount: int):
-        self.character_sheet['Characteristics']['Sanity']['Current'] -= amount
+    def change_magic_points(self, amount: int):
+        """ same behavior as change_hit_points """
+        self.character_sheet['Characteristics']['Magic Points']['Current'] += amount
+    
+    def change_sanity(self, amount: int):
+        """ same behavior as change_hit_points """
+        self.character_sheet['Characteristics']['Sanity']['Current'] += amount
     
     @property
     def age(self):
@@ -122,19 +116,29 @@ class CthulhuCharacter:
         return self.character_sheet['Characteristics']['Hit Points']['Current']
     
     @property
+    def current_mp(self):
+        return self.character_sheet['Characteristics']['Magic Points']['Current']
+    
+    @property
     def current_luck(self):
         return self.character_sheet["Characteristics"]["Luck"]
-        
-
-
-class PulpCharacter(CthulhuCharacter):
     
+        
+class PulpCharacter(CthulhuCharacter):
+
     def __init__(self, fpath: str):
         super().__init__(fpath)
     
-    def spend_luck(self, amount: int):
-        self.character_sheet["Characteristics"]["Luck"] -= amount
-       
+    # Modifiers
+    def change_luck(self, amount: int):
+        """ similar to other change methods """
+        self.character_sheet["Characteristics"]["Luck"] += amount
+    
+    @property
+    def archetype(self):
+        return self.character_sheet["Archetype"]   
+    
     @property
     def talents(self):
         return JSONParser.get_keys(self.character_sheet['Pulp Talents'])
+    

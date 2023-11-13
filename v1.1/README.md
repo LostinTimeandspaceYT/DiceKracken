@@ -8,6 +8,21 @@ New and improved version of the CoC Dice Roller
 - Support for reading characters sheets via JSON (example sheet provided !)
 - Menu support for skill roll selection
 
+### update 11/12/23
+
+- fixed a bug when attempting to find values inside a nested dictionary. Very useful when trying to find skill values
+
+- added support rolling skills at a particular difficulty level.
+
+- added support for manipulating hp, mp, luck, and sanity
+
+- Adding support for regular and pulp Cthulhu characters 
+
+- added support for any sided dice rolling. This should make adding  other games easier
+
+- updated file structure to reflect new changes
+
+
 ## In Progress
 - Fleshing out CharacterSheet class
 - Support for varying screen dimensions

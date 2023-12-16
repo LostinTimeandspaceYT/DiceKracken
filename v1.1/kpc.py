@@ -1,5 +1,5 @@
 import picokeypad
-
+from micropython import const
 
 class Color:
     """
@@ -17,31 +17,37 @@ class Color:
     
 
 class KeypadController:
-    
+    # Menu buttons #
+    CONFIRM = const(12)
+    DENY = const(13)
+    ACCEPT = const(10)
+    BACKSPACE = const(11)
+    UP_MENU = const(14)
+    DOWN_MENU = const(15)
+
     def __init__(self):
-        # for checking states
-        self._prev_btn_states = 0 
+        self._prev_btn_states = 0 # for checking states
         
         self.keypad = picokeypad.PicoKeypad()
         self.keypad.set_brightness(0.50) # accepts a float from 0 - 1.0
-        self.buttons = {
-            0: Color.black,  
-            1: Color.black,
-            2: Color.black,
-            3: Color.black,
-            4: Color.black,  
-            5: Color.black,
-            6: Color.black,
-            7: Color.black,
-            8: Color.black,  
-            9: Color.black,
-            10: Color.lt_blue,
-            11: Color.yellow,
-            12: Color.green,  
-            13: Color.red,
-            14: Color.black,
-            15: Color.black,
-            }
+        self.buttons = [
+            Color.black,  
+            Color.black,
+            Color.black,
+            Color.black,
+            Color.black,  
+            Color.black,
+            Color.black,
+            Color.black,
+            Color.black,  
+            Color.black,
+            Color.lt_blue,
+            Color.yellow,
+            Color.green,  
+            Color.red,
+            Color.black,
+            Color.black,
+        ]
         # light-up the keys
         self.default_layout()
         
@@ -53,7 +59,6 @@ class KeypadController:
             button = 0
             if self._prev_btn_states != btn_states:
                 self._prev_btn_states = btn_states
-                
                 # First we have to find the button that was pressed
                 for find in range(btn_range):
                     if btn_states & 0x01 > 0:
@@ -67,7 +72,6 @@ class KeypadController:
                     button += 1
         return pressed
 
-        
     def check_num_buttons(self):
         result = 0
         done = False
@@ -119,7 +123,7 @@ class KeypadController:
                     self.light_button(button, self.buttons[button])
 
         self.reset_number_buttons()
-        return int(result)               
+        return int(result)
             
     def light_button(self, button: int, color: tuple):
         """
@@ -147,6 +151,7 @@ class KeypadController:
         """        
         for i in range(vals):
             self.keypad.illuminate(i, *color)
+            
         self.keypad.update()
 
     def default_layout(self):

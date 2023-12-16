@@ -1,13 +1,5 @@
 """
 This module defines the game logic 
-
-Should the game logic care about the peripheral devices?
-- Probably not.
-
-That leads to a few questions:
-- Where should the logic for the peripherals be?
-- How should we interface with those peripherals?
-
 """
 
 from time import sleep

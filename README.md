@@ -1,4 +1,4 @@
-# Dice Roller
+# Dice Kracken
 _An electronic character sheet & Dice roller_
 
 ## v0.1
@@ -7,7 +7,7 @@ _An electronic character sheet & Dice roller_
 - Call of Cthulhu Only
 - Deprecated
 
-## v1.1
+## v0.2 : Currently in Development
 - Uses a Pimoroni Keypad base (details in README)
 - Character sheet integration vis JSON
 - Plan to support web API

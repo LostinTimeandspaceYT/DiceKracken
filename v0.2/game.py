@@ -42,6 +42,7 @@ class Game():
         self.keypad = keypad
         self.lcd = lcd
         self.game_menu = {}
+        self.running = True
     
     def loop(self):
         raise NotImplementedError
@@ -60,6 +61,9 @@ class Game():
             {"make skill roll': self.investigator.make_skill_roll}
         """
         raise NotImplementedError
+    
+    def quit(self):
+        self.running = False
     
     def select_from_list_menu(self, list_of_stuff: list[str]) -> str:
         """
@@ -189,13 +193,33 @@ class CthulhuGame(Game):
             "Hard",
             "Extreme"
         ]
+        self.populate_game_menu()
 
     def populate_game_menu(self):
         self.game_menu = { 
             "Make a skill roll" : self.make_skill_roll,
             "Change Hit Points": self.change_hit_points,
             "Change Sanity" : self.change_sanity,
+            "Quit"			: self.quit,
         }
+        
+    def loop(self):
+        while self.running:
+            i = 0
+            options = []
+            self.reset_lcd()
+            for k,v in self.game_menu.items():
+                options.append(k)
+                self.lcd.putstr(f"{i}: {k}\n")
+                i += 1
+            keypress = self.keypad.get_button_press()
+            while keypress >= len(self.game_menu):
+                self.lcd.putstr("Press a valid key.\n")
+                keypress = self.keypad.get_button_press()
+            self.reset_lcd()
+            self.game_menu[options[keypress]]()
+            
+        
 
     def determine_result(self, roll: int,  skill_val: int,  fumble: int, difficulty: str) -> bool:
 
@@ -235,7 +259,9 @@ class CthulhuGame(Game):
     
     def make_skill_roll(self):
         skill = self.select_from_list_menu(self.investigator.skills)
+        self.reset_lcd()
         diff = self.select_from_list_menu(self.difficulty_levels)
+        self.reset_lcd()
         val = self.investigator.get_value_at(skill)
         if isinstance(val, int):
             self.lcd.putstr("Any modifiers?  C=Confirm D=Deny")
@@ -292,4 +318,5 @@ class CthulhuGame(Game):
 class PulpCthulhuGame(CthulhuGame):
     def __init__(self, keypad: KeypadController, lcd: I2cLcd, fpath: str):
         super().__init__(keypad, lcd, fpath)
+
 

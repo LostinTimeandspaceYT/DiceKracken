@@ -42,11 +42,11 @@ def reset_lcd():
     lcd.blink_cursor_off()
 
 main_menu_options = [ 
-    "Select a game",
-    "Download character",
-    "Download new game",
+    "Select game",
+    "Download PC",
+    "Download game",
     # add other options here!
-    "Exit (Power Off)"  # Exit should always be last
+    "Exit"  # Exit should always be last
 ]
 
 def print_options(options: list[str]):
@@ -60,24 +60,25 @@ def main_menu():
     sub_menus = [
         game_menu,
         download_character_menu,
-        download_game_menu
+        download_game_menu,
+        power_off
     ]
-
-    print_options(main_menu_options)
-    keypress = keypad.get_button_press()
-
-    while keypress != main_menu_options.index("Exit (Power Off)\n"):
-        reset_lcd()
-        sub_menus[keypress]
+    keypress = -1
+    while keypress != len(sub_menus) - 1:
         reset_lcd()
         print_options(main_menu_options)
         keypress = keypad.get_button_press()
-
+        sub_menus[keypress]()
+    
 
 
 def game_menu():
+    reset_lcd()
+    i = 0
     for game in supported_games:
-        lcd.putstr(game)
+        lcd.putstr(f"{i}: {game} \n")
+        i += 1
+    keypress = keypad.get_button_press()
 
 def download_character_menu():
     pass
@@ -86,6 +87,7 @@ def download_game_menu():
     pass
 
 def power_off():
+    reset_lcd()
     lcd.putstr("Until next time.\n")
     sleep(2)
     lcd.backlight_off()

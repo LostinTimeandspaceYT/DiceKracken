@@ -38,7 +38,13 @@ class GameFactory():
     
 
 class Game():
-    def __init__(self, keypad: KeypadController, lcd: I2cLcd, fpath: str):
+    """
+    Interface to game logic
+    
+    TODO: Create menu scrolling in class to help with long menus
+    
+    """
+    def __init__(self, keypad: KeypadController, lcd: I2cLcd):
         self.keypad = keypad
         self.lcd = lcd
         self.game_menu = {}
@@ -64,6 +70,28 @@ class Game():
     
     def quit(self):
         self.running = False
+        
+    def select_option(self, options: list[str]) -> int:
+        """
+        Helper method for print a short list of items to the user to select from.
+        """
+        self.reset_lcd()
+        i = 0
+        keypress = -1
+        for option in options:
+            self.lcd.putstr(f"{i}: {option} \n")
+            i += 1
+        keypress = self.keypad.get_button_press()
+        while keypress >= i:
+            self.reset_lcd()
+            self.lcd.putstr("Press a valid key. \n")
+            sleep(1.5)
+            self.reset_lcd()
+            for j in range(options):
+                self.lcd.putstr(f"{j}: {options[j]} \n")
+            keypress = self.keypad.get_button_press()
+        return keypress
+            
     
     def select_from_list_menu(self, list_of_stuff: list[str]) -> str:
         """
@@ -80,9 +108,9 @@ class Game():
         cursor_index = 0
         max_len = len(list_of_stuff)
         num_lines = self.lcd.num_lines
-
+        
         while keypress != self.keypad.CONFIRM:
-            for i in range(self.lcd.num_lines):
+            for i in range(min(self.lcd.num_lines, max_len)):
                 if i == cursor_index:
                     msg = '>:' 
                 else:
@@ -115,7 +143,7 @@ class Game():
                 
             sleep(.1) 
             
-        return list_of_stuff[current].lstrip()  
+        return list_of_stuff[cursor_index + current].lstrip()  
     
     def get_number(self):
         """
@@ -186,7 +214,7 @@ class Game():
 
 class CthulhuGame(Game):
     def __init__(self, keypad: KeypadController, lcd: I2cLcd, fpath: str):
-        super().__init__(keypad, lcd, fpath)
+        super().__init__(keypad, lcd)
         self.investigator = CthulhuCharacter(fpath)
         self.difficulty_levels = [
             "Normal",
@@ -210,23 +238,18 @@ class CthulhuGame(Game):
             self.reset_lcd()
             for k,v in self.game_menu.items():
                 options.append(k)
-                self.lcd.putstr(f"{i}: {k}\n")
                 i += 1
-            keypress = self.keypad.get_button_press()
-            while keypress >= len(self.game_menu):
-                self.lcd.putstr("Press a valid key.\n")
-                keypress = self.keypad.get_button_press()
+            selected = self.select_from_list_menu(options)
             self.reset_lcd()
-            self.game_menu[options[keypress]]()
+            self.game_menu[selected]()
             
         
 
-    def determine_result(self, roll: int,  skill_val: int,  fumble: int, difficulty: str) -> bool:
-
+    def determine_result(self, roll: int,  skill_val: int, fumble: int, difficulty: str) -> bool:
         msg = ""
         failed = False
         if roll <= skill_val:
-            msg = f"\n{difficulty} success!"
+            msg = f"{difficulty} success!"
 
             if difficulty == "Normal":
                 self.keypad.light_buttons(16, Color.green)
@@ -246,7 +269,7 @@ class CthulhuGame(Game):
             self.keypad.light_buttons(16, Color.purple)
             failed = True
 
-        else:  # roll >= fumble
+        elif roll >= fumble:
             msg = "\nFumble..."
             self.keypad.light_buttons(16, Color.red)
             failed = True
@@ -259,18 +282,18 @@ class CthulhuGame(Game):
     
     def make_skill_roll(self):
         skill = self.select_from_list_menu(self.investigator.skills)
-        self.reset_lcd()
-        diff = self.select_from_list_menu(self.difficulty_levels)
-        self.reset_lcd()
+        diff_level = self.select_option(self.difficulty_levels)
+        
         val = self.investigator.get_value_at(skill)
         if isinstance(val, int):
-            self.lcd.putstr("Any modifiers?  C=Confirm D=Deny")
+            self.reset_lcd()
+            self.lcd.putstr("Any modifiers?\nC=Confirm D=Deny")
             if self.get_yes_no():
                 self.lcd.clear()
-                self.lcd.putstr("Num of bonus\ndice:")
+                self.lcd.putstr("Num of bonus \ndice:")
                 bonus = self.get_number()
                 self.lcd.clear()
-                self.lcd.putstr("Num of penalty\ndice:")
+                self.lcd.putstr("Num of penalty \ndice:")
                 penalty = self.get_number()
             else:
                 bonus = 0
@@ -279,44 +302,47 @@ class CthulhuGame(Game):
             self.lcd.clear()
 
             roll = self.investigator.roll_skill(bonus, penalty)
-            skill_val_at = self.investigator.get_skill_at_difficulty(val, diff)
+            skill_val_at = self.investigator.get_skill_at_difficulty(val, self.difficulty_levels[diff_level])
             fumble = self.investigator.get_fumble(val)
-            failed = self.determine_result(roll, skill_val_at, fumble, diff)
+            failed = self.determine_result(roll, skill_val_at, fumble, self.difficulty_levels[diff_level])
             if failed and roll < fumble:
-                self.lcd.putstr("Push the roll?  C=Confirm D=Deny")
+                self.lcd.putstr("Push the roll? \nC=Confirm D=Deny")
                 push = self.get_yes_no()
-
-                if push != self.keypad.DENY:
+                
+                if push:
                     self.reset_lcd()
                     roll = self.investigator.roll_skill(bonus, penalty)
-                    failed_push = self.determine_result(roll, skill_val_at, fumble, diff)
+                    failed_push = self.determine_result(roll, skill_val_at, fumble, self.difficulty_levels[diff_level])
                     if failed_push:
-                        self.lcd.putstr("Failing pushed   rolls is bad!")
+                        self.lcd.putstr("Failing pushed\nrolls is bad!")
                         sleep(2)
                         self.reset_lcd()
         else:
             raise TypeError("Selected Skill does not have a value associated with it.")
         
     def change_hit_points(self):
-        self.lcd.putstr("Taking Damage?\n C=Confirm D=Deny")
-        if self.get_yes_no():
-            amt = - self.get_number()
-        else:
-            amt = self.get_number()
+        self.lcd.putstr("Taking Damage?\nC=Confirm D=Deny")
+        damaged = self.get_yes_no()
+        amt = self.get_number()
+        if damaged:
+            amt = -amt
 
         self.investigator.change_hit_points(amt)    
 
     def change_sanity(self):
-        self.lcd.putstr("Losing Sanity\n C=Confirm D=Deny")
-        if self.get_yes_no():
-            amt = - self.get_number()
-        else:
-            amt = self.get_number()
-
+        self.lcd.putstr("Losing Sanity?\nC=Confirm D=Deny")
+        answer = self.get_yes_no()
+        self.reset_lcd()
+        self.lcd.putstr("How much damage? \n")
+        amt = self.get_number()
+        if answer: 
+            amt = -amt
+    
         self.investigator.change_sanity(amt)
 
 class PulpCthulhuGame(CthulhuGame):
     def __init__(self, keypad: KeypadController, lcd: I2cLcd, fpath: str):
         super().__init__(keypad, lcd, fpath)
+        self.investigator = PulpCharacter(fpath) #FIXME: Don't make me twice!
 
 

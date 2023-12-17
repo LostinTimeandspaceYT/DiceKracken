@@ -32,7 +32,7 @@ keypad = KeypadController()
 
 def welcome_splash():
     msg = " " * (_NUM_OF_COLS - 16)
-    msg += "DICE KRAKEN\n    Version 1.1"
+    msg += "DICE KRACKEN!\n   Version 0.2"
     lcd.putstr(msg)
     sleep(5)
     reset_lcd()
@@ -79,6 +79,15 @@ def game_menu():
         lcd.putstr(f"{i}: {game} \n")
         i += 1
     keypress = keypad.get_button_press()
+    
+    while keypress >= len(supported_games):
+        lcd.putstr("Press a valid key.\n")
+        keypress = keypad.get_button_press()
+    
+    selected = supported_games[keypress]
+    game = GameFactory.create_game(keypad, lcd, selected)
+    game.loop()
+
 
 def download_character_menu():
     pass
@@ -114,7 +123,7 @@ Start up Procedure
 
 
 def main():
-    welcome_splash()
+    # welcome_splash()
     main_menu()
 
 

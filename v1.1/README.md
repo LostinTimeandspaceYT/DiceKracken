@@ -1,14 +1,14 @@
-# Version 1.1
-New and improved version of the CoC Dice Roller 
+# Version 0.2
+CoC dice roller rebranded to the Dice Kracken
 
 ## Updates
 - New keypad! This version uses the Pimoroni Keypad linked Here: https://shop.pimoroni.com/products/pico-rgb-keypad-base?variant=32369517166675
   
-  - Added support for controlling the keypad with the kpc.py module
+- Added support for controlling the keypad with the kpc.py module
 - Support for reading characters sheets via JSON (example sheet provided !)
 - Menu support for skill roll selection
 
-### update 11/12/23
+### Update Nov/12/23
 
 - fixed a bug when attempting to find values inside a nested dictionary. Very useful when trying to find skill values
 
@@ -22,14 +22,33 @@ New and improved version of the CoC Dice Roller
 
 - updated file structure to reflect new changes
 
+### Update Dec/16/2023
+
+- Rebranded device as the Dice Kracken. Sounds cool, right?!
+
+- Began work on the Game interface and GameFactory classes to support other RPGs in the future.
+
+- Began work on a main menu system
+
+- Restructured main.py to utilize new code structure.
+
+- Added PlayerCharacter base class to more generalize behavioral code
+
+These changes aim to decouple the Character classes from the Game logic classes. The Character classes now
+only concern themselves with keeping track of stats, improvements, and 'rolling the dice'. The Game classes
+perform logic and interface with the peripherials. 
+
+The GameFactory class aims to allow the device to support multiple games and characters on the same device.
+  
 
 ## In Progress
 - Fleshing out CharacterSheet class
 - Support for varying screen dimensions
+- Main menu interface
+- GameFactory and Game classes
 
 ## Future Improvements/ Wishlist
-- Ability to update values from the device
-- Allow user to select level of success when making a roll
+- Ability to update values from the device 
 - Web API support for users to download their own character sheets
 
 ## Known Issues

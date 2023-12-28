@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call of Cthulhu & Pulp Cthulhu Character Creator</title>
+    <style>  /* TODO: Move this into CSS file*/
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        fieldset {
+            margin-bottom: 20px;
+        }
+
+        legend {
+            font-weight: bold;
+        }
+
+        .subfield {
+            margin-left: 20px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr); /* Three equal columns */
+            gap: 10px; /* Spacing between columns */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Call of Cthulhu Character Creator</h1>
+
+    <form action="submit_character" method="post">
+        <!-- Basic Information -->
+        <fieldset>
+            <legend>Basic Information</legend>
+            <label for="characterName">Character Name:</label>
+            <input type="text" id="characterName" name="characterName" required>
+
+            <label for="pronoun">Pronoun:</label>
+            <select id="pronoun" name="gender" required>
+                <option value="He/Him">He/Him</option>
+                <option value="She/Her">She/Her</option>
+                <option value="They/Them">They/Them</option>
+                <option value="Other">Other</option>
+            </select><input type="text" id="pronoun" name="pronoun">
+
+            <label for="occupation">Occupation:</label>
+            <input type="text" id="occupation" name="occupation" required>
+
+            <label for="archetype">Archetype:</label>
+            <input type="text" id="archetype" name="archetype" required>
+
+            <label for="residence">Residence:</label>
+            <input type="text" id="residence" name="residence" required>
+
+            <label for="birthplace">Birthplace:</label>
+            <input type="text" id="birthplace" name="birthplace">
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required>
+        </fieldset>
+
+        <!-- Characteristics -->
+        <fieldset>
+            <legend>Characteristics</legend>
+
+        <div class="grid-container">
+            <!-- STR -->
+            <div>
+                <label for="str">STR:</label>
+            </div>
+            <div>
+                <input type="number" id="str" name="str" min="0" max="100" oninput="update_skill_values(id)" required>
+            </div>
+            <div>
+                <input type="text" id="str_dividedBy2" readonly class="result">
+            </div>
+            <div>
+                <input type="text" id="str_dividedBy5" readonly class="result">
+            </div>
+        
+
+            <!-- CON -->
+            <div>
+                <label for="con">CON:</label>
+            </div>
+            <div>
+                <input type="number" id="con" name="con" min="0" max="100" oninput="update_skill_values(id)" required>
+            </div>
+            <div>
+                <input type="text" id="con_dividedBy2" readonly class="result">
+            </div>
+            <div>
+                <input type="text" id="con_dividedBy5" readonly class="result">
+            </div>
+        
+
+            <!-- DEX -->
+            <div>
+                <label for="dex">DEX:</label>
+            </div>
+            <div>
+                <input type="number" id="dex" name="dex" min="0" max="100" oninput="update_skill_values(id)" required>
+            </div>
+            <div>
+                <input type="text" id="dex_dividedBy2" readonly class="result">
+            </div>
+            <div>
+                <input type="text" id="dex_dividedBy5" readonly class="result">
+            </div>
+        
+
+            <!-- INT -->
+            <div>
+                <label for="int">INT:</label>
+            </div>
+            <div>
+                <input type="number" id="int" name="int" min="0" max="100" oninput="update_skill_values(id)" required>
+            </div>
+            <div>
+                <input type="text" id="int_dividedBy2" readonly class="result">
+            </div>
+            <div>
+                <input type="text" id="int_dividedBy5" readonly class="result">
+            </div>
+        
+
+            <!-- SIZ -->
+            <div>
+                <label for="siz">SIZ:</label>
+            </div>
+            <div>
+                <input type="number" id="siz" name="siz" min="0" max="100" oninput="update_skill_values(id)" required>
+            </div>
+            <div>
+                <input type="text" id="siz_dividedBy2" readonly class="result">
+            </div>
+            <div>
+                <input type="text" id="siz_dividedBy5" readonly class="result">
+            </div>
+        
+
+            <!-- POW -->
+            <div>
+                <label for="pow">POW:</label>
+            </div>
+            <div>
+                <input type="number" id="pow" name="pow" min="0" max="100" oninput="update_skill_values(id)" required>
+            </div>
+            <div>
+                <input type="text" id="pow_dividedBy2" readonly class="result">
+            </div>
+            <div>
+                <input type="text" id="pow_dividedBy5" readonly class="result">
+            </div>
+        
+
+            <!-- APP -->
+            <div>
+                <label for="app">APP:</label>
+            </div>
+            <div>
+                <input type="number" id="app" name="app" min="0" max="100" oninput="update_skill_values(id)" required>
+            </div>
+            <div>
+                <input type="text" id="app_dividedBy2" readonly class="result">
+            </div>
+            <div>
+                <input type="text" id="app_dividedBy5" readonly class="result">
+            </div>
+        
+
+            <!-- EDU -->
+            <div>
+                <label for="edu">EDU:</label>
+            </div>
+            <div>
+                <input type="number" id="edu" name="edu" min="0" max="100" oninput="update_skill_values(id)" required>
+            </div>
+            <div>
+                <input type="text" id="edu_dividedBy2" readonly class="result">
+            </div>
+            <div>
+                <input type="text" id="edu_dividedBy5" readonly class="result">
+            </div>
+        </div>
+        </fieldset>
+
+
+        <div class="grid-container" >
+        <!-- Magic Points -->
+        <fieldset>
+            <legend>Magic Points</legend>
+            <label for="maxMagicPoints">Maximum:</label>
+            <input type="text" id="max_magic_points" name="max_magic_points" required>
+
+            <label for="currentMagicPoints">Current:</label>
+            <input type="number" id="current_magic_points" name="current_magic_points" required>
+        </fieldset>
+
+        <!-- Hit Points -->
+        <fieldset>
+            <legend>Hit Points</legend>
+                <label for="maxMagicPoints">Maximum:</label>
+                <input type="text" id="max_hit_points" name="max_hit_points" required>
+
+                <label for="currentMagicPoints">Current:</label>
+                <input type="number" id="current_hit_points" name="current_hit_points" required>
+                
+            <div class="grid-container">
+                
+                <!-- Major Wound, Unconscious, Dying -->
+                <fieldset>
+                    <legend>Status</legend>
+                    <div class="grid-container">
+                        <div>
+                            <input type="checkbox" id="major_wound" name="major_wound">
+                        </div>
+                        <div>
+                            <label for="major_wound">Major Wound</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="Unconscious" name="Unconscious">
+                        </div>
+                        <div>
+                            <label for="Unconscious">Unconscious</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="Dying" name="Dying">
+                        </div>
+                        <div>
+                            <label for="Dying">Dying</label>
+                        </div>
+
+                    </div>
+                </fieldset>
+            </div>
+        </fieldset>
+
+        <!-- Luck -->
+        <fieldset>
+            <legend>Luck</legend>
+            <label for="currentMagicPoints">Current:</label>
+            <input type="number" id="current_luck" name="current_luck" required>
+        </fieldset>
+        
+        <!-- Sanity -->
+        <fieldset>
+            <legend>Sanity</legend>
+
+            <label for="max_sanity">Maximum:</label>
+            <input type="text" id="maximum_sanity" name="maximum_sanity" required>
+
+            <label for="starting_sanity">Starting:</label>
+            <input type="text" id="starting_sanity" name="starting_santiy" required>
+            
+            <label for="current_sanity">Current:</label>
+            <input type="number" id="current_sanity" name="current_santiy" required>
+
+            
+            <div class="grid-container">
+                <fieldset>
+                    <!-- Temporar Insanity, Indefinite Insanity -->
+                    <legend>Status</legend>
+                    <div class="grid-container">
+                        <div>
+                            <input type="checkbox" id="temporary_insanity" name="temporary_insanity">
+                        </div>
+                        <div>
+                            <label for="temporary_insanity">Temporary Insanity</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="indefinite_insanity" name="indefinite_insanity">
+                        </div>
+                        <div>
+                            <label for="indefinite_insanity">Indefinite Insanity</label>
+                        </div>
+                        <div>
+                        </div>
+                        <div>
+                        </div>
+    
+                    </div>
+                </fieldset>
+            </div>
+        </fieldset>
+        
+        
+        </div>
+
+ 
+
+
+
+
+        <!-- Pulp Talents -->
+        <fieldset>
+            <legend>Pulp Talents</legend>
+            <!-- Add fields for Sharp Witted, Talent 2, Talent 3 -->
+        </fieldset>
+
+        <!-- Skills -->
+        <fieldset>
+            <legend>Skills</legend>
+            <div class="grid-container">
+            <!-- Accounting -->
+                <div>
+                    <label for="accounting">Accounting:</label>
+                </div>
+                <div>
+                    <input type="number" id="accounting" name="accounting" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="accounting_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="accounting_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Appraise -->
+                <div>
+                    <label for="appraise">Appraise:</label>
+                </div>
+                <div>
+                    <input type="number" id="appraise" name="appraise" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="appraise_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="appraise_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Archaeology -->
+                <div>
+                    <label for="archaeology">Archaeology:</label>
+                </div>
+                <div>
+                    <input type="number" id="archaeology" name="archaeology" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="archaeology_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="archaeology_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Art/Craft -->
+                <div>
+                    <label for="art/craft">Art/Craft:</label>
+                </div>
+                <div>
+                    <input type="number" id="art/craft" name="art/craft" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="art/craft_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="art/craft_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Charm -->
+                <div>
+                    <label for="charm">Charm:</label>
+                </div>
+                <div>
+                    <input type="number" id="charm" name="charm" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="charm_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="charm_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Climb -->
+                <div>
+                    <label for="climb">Climb:</label>
+                </div>
+                <div>
+                    <input type="number" id="climb" name="climb" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="climb_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="climb_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Computer Use -->
+                <div>
+                    <label for="computer_use">Computer Use:</label>
+                </div>
+                <div>
+                    <input type="number" id="computer_use" name="computer_use" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="computer_use_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="computer_use_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Credit Rating -->
+                <div>
+                    <label for="credit_rating">Credit Rating:</label>
+                </div>
+                <div>
+                    <input type="number" id="credit_rating" name="credit_rating" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="credit_rating_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="credit_rating_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Cthulhu Mythos -->
+                <div>
+                    <label for="cthulhu_mythos">Cthulhu Mythos:</label>
+                </div>
+                <div>
+                    <input type="number" id="cthulhu_mythos" name="cthulhu_mythos" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="cthulhu_mythos_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="cthulhu_mythos_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Demolitions -->
+                <div>
+                    <label for="demolitions">Demolitions:</label>
+                </div>
+                <div>
+                    <input type="number" id="demolitions" name="demolitions" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="demolitions_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="demolitions_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Disguise -->
+                <div>
+                    <label for="disguise">Disguise:</label>
+                </div>
+                <div>
+                    <input type="number" id="disguise" name="disguise" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="disguise_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="disguise_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Diving -->
+                <div>
+                    <label for="diving">Diving:</label>
+                </div>
+                <div>
+                    <input type="number" id="diving" name="diving" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="diving_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="diving_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Dodge -->
+                <div>
+                    <label for="dodge">Dodge:</label>
+                </div>
+                <div>
+                    <input type="number" id="dodge" name="dodge" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="dodge_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="dodge_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Drive Auto -->
+                <div>
+                    <label for="drive_auto">Drive Auto:</label>
+                </div>
+                <div>
+                    <input type="number" id="drive_auto" name="drive_auto" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="drive_auto_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="drive_auto_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Elec. Repair -->
+                <div>
+                    <label for="elec._repair">Elec. Repair:</label>
+                </div>
+                <div>
+                    <input type="number" id="elec._repair" name="elec._repair" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="elec._repair_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="elec._repair_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Fast Talk -->
+                <div>
+                    <label for="fast_talk">Fast Talk:</label>
+                </div>
+                <div>
+                    <input type="number" id="fast_talk" name="fast_talk" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="fast_talk_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="fast_talk_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Fighting (Brawl) -->
+                <div>
+                    <label for="fighting_(brawl)">Fighting (Brawl):</label>
+                </div>
+                <div>
+                    <input type="number" id="fighting_(brawl)" name="fighting_(brawl)" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="fighting_(brawl)_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="fighting_(brawl)_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Firearms -->
+                <div>
+                    <label for="firearms">Firearms:</label>
+                </div>
+                <div>
+                    <input type="number" id="firearms" name="firearms" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="firearms_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="firearms_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- First Aid -->
+                <div>
+                    <label for="first_aid">First Aid:</label>
+                </div>
+                <div>
+                    <input type="number" id="first_aid" name="first_aid" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="first_aid_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="first_aid_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- History -->
+                <div>
+                    <label for="history">History:</label>
+                </div>
+                <div>
+                    <input type="number" id="history" name="history" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="history_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="history_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Intimidate -->
+                <div>
+                    <label for="intimidate">Intimidate:</label>
+                </div>
+                <div>
+                    <input type="number" id="intimidate" name="intimidate" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="intimidate_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="intimidate_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Jump -->
+                <div>
+                    <label for="jump">Jump:</label>
+                </div>
+                <div>
+                    <input type="number" id="jump" name="jump" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="jump_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="jump_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Language -->
+                <div>
+                    <label for="language">Language:</label>
+                </div>
+                <div>
+                    <input type="number" id="language" name="language" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="language_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="language_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Law -->
+                <div>
+                    <label for="law">Law:</label>
+                </div>
+                <div>
+                    <input type="number" id="law" name="law" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="law_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="law_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Library Use -->
+                <div>
+                    <label for="library_use">Library Use:</label>
+                </div>
+                <div>
+                    <input type="number" id="library_use" name="library_use" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="library_use_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="library_use_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Listen -->
+                <div>
+                    <label for="listen">Listen:</label>
+                </div>
+                <div>
+                    <input type="number" id="listen" name="listen" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="listen_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="listen_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Locksmith -->
+                <div>
+                    <label for="locksmith">Locksmith:</label>
+                </div>
+                <div>
+                    <input type="number" id="locksmith" name="locksmith" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="locksmith_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="locksmith_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Mech. Repair -->
+                <div>
+                    <label for="mech._repair">Mech. Repair:</label>
+                </div>
+                <div>
+                    <input type="number" id="mech._repair" name="mech._repair" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="mech._repair_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="mech._repair_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Medicine -->
+                <div>
+                    <label for="medicine">Medicine:</label>
+                </div>
+                <div>
+                    <input type="number" id="medicine" name="medicine" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="medicine_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="medicine_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Natural World -->
+                <div>
+                    <label for="natural_world">Natural World:</label>
+                </div>
+                <div>
+                    <input type="number" id="natural_world" name="natural_world" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="natural_world_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="natural_world_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Navigate -->
+                <div>
+                    <label for="navigate">Navigate:</label>
+                </div>
+                <div>
+                    <input type="number" id="navigate" name="navigate" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="navigate_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="navigate_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Occult -->
+                <div>
+                    <label for="occult">Occult:</label>
+                </div>
+                <div>
+                    <input type="number" id="occult" name="occult" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="occult_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="occult_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Persuade -->
+                <div>
+                    <label for="persuade">Persuade:</label>
+                </div>
+                <div>
+                    <input type="number" id="persuade" name="persuade" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="persuade_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="persuade_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Pilot -->
+                <div>
+                    <label for="pilot">Pilot:</label>
+                </div>
+                <div>
+                    <input type="number" id="pilot" name="pilot" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="pilot_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="pilot_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Psychoanalysis -->
+                <div>
+                    <label for="psychoanalysis">Psychoanalysis:</label>
+                </div>
+                <div>
+                    <input type="number" id="psychoanalysis" name="psychoanalysis" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="psychoanalysis_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="psychoanalysis_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Psychology -->
+                <div>
+                    <label for="psychology">Psychology:</label>
+                </div>
+                <div>
+                    <input type="number" id="psychology" name="psychology" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="psychology_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="psychology_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Read Lips -->
+                <div>
+                    <label for="read_lips">Read Lips:</label>
+                </div>
+                <div>
+                    <input type="number" id="read_lips" name="read_lips" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="read_lips_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="read_lips_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Ride -->
+                <div>
+                    <label for="ride">Ride:</label>
+                </div>
+                <div>
+                    <input type="number" id="ride" name="ride" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="ride_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="ride_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Science -->
+                <div>
+                    <label for="science">Science:</label>
+                </div>
+                <div>
+                    <input type="number" id="science" name="science" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="science_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="science_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Sleight of Hand -->
+                <div>
+                    <label for="sleight_of_hand">Sleight of Hand:</label>
+                </div>
+                <div>
+                    <input type="number" id="sleight_of_hand" name="sleight_of_hand" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="sleight_of_hand_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="sleight_of_hand_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Spot Hidden -->
+                <div>
+                    <label for="spot_hidden">Spot Hidden:</label>
+                </div>
+                <div>
+                    <input type="number" id="spot_hidden" name="spot_hidden" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="spot_hidden_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="spot_hidden_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Stealth -->
+                <div>
+                    <label for="stealth">Stealth:</label>
+                </div>
+                <div>
+                    <input type="number" id="stealth" name="stealth" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="stealth_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="stealth_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Survival -->
+                <div>
+                    <label for="survival">Survival:</label>
+                </div>
+                <div>
+                    <input type="number" id="survival" name="survival" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="survival_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="survival_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Swim -->
+                <div>
+                    <label for="swim">Swim:</label>
+                </div>
+                <div>
+                    <input type="number" id="swim" name="swim" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="swim_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="swim_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Throw -->
+                <div>
+                    <label for="throw">Throw:</label>
+                </div>
+                <div>
+                    <input type="number" id="throw" name="throw" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="throw_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="throw_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Track -->
+                <div>
+                    <label for="track">Track:</label>
+                </div>
+                <div>
+                    <input type="number" id="track" name="track" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="track_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="track_dividedBy5" readonly class="result">
+                </div>
+            
+
+                <!-- Other -->
+                <div>
+                    <label for="other">Other:</label>
+                </div>
+                <div>
+                    <input type="number" id="other" name="other" min="0" max="100" oninput="update_skill_values(id)" required>
+                </div>
+                <div>
+                    <input type="text" id="other_dividedBy2" readonly class="result">
+                </div>
+                <div>
+                    <input type="text" id="other_dividedBy5" readonly class="result">
+                </div>
+            </div>
+
+            <label for="specialty1">Specialty 1:</label>
+            <input type="number" id="specialty1" name="specialty1" min="0" max="100" required>
+
+            <label for="specialty2">Specialty 2:</label>
+            <input type="number" id="specialty2" name="specialty2" min="0" max="100" required>
+
+            <label for="specialty3">Specialty 3:</label>
+            <input type="number" id="specialty3" name="specialty3" min="0" max="100" required>
+        </fieldset>
+
+        <!-- Combat -->
+        <fieldset>
+            <legend>Combat</legend>
+            <!-- Add fields for Build, Damage Bonus, Dodge, Move -->
+            <!-- Add fields for Weapons (Weapon 1, Weapon 2, Weapon 3) -->
+        </fieldset>
+
+        <!-- Phobias -->
+        <fieldset>
+            <legend>Phobias</legend>
+            <!-- Add fields for Phobia 1, Phobia 2, Phobia 3 -->
+        </fieldset>
+
+
+
+        <button type="submit">Create Character</button>
+    </form>
+
+    <script>
+        function update_skill_values(id) {
+            const userInput = document.getElementById(id).value;
+            const dividedBy2 = Math.floor(userInput / 2);
+            const dividedBy5 = Math.floor(userInput / 5);
+
+            document.getElementById(id + '_dividedBy2').value = isNaN(dividedBy2) ? '' : dividedBy2;
+            document.getElementById(id + '_dividedBy5').value = isNaN(dividedBy5) ? '' : dividedBy5;
+        }
+    </script>
+
+</body>
+</html>

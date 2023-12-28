@@ -39,17 +39,24 @@ only concern themselves with keeping track of stats, improvements, and 'rolling 
 perform logic and interface with the peripherials. 
 
 The GameFactory class aims to allow the device to support multiple games and characters on the same device.
-  
+
+## Update Dec 28/23  
+_Began work on Web API to interface with Dice Kracken._
+Pico-W acts as the server, hosting files which can be accessed via a browser. 
+To test the connection of your Pico-W, don't forget to change the ``ssid`` and ``password`` in ``network_crediantials.py``.
+- Created example frontend web stack.
+- Skills and Characteristics auto-fill half and fifth values (though currently not used)
+- 
 
 ## In Progress
 - Fleshing out CharacterSheet class
 - Support for varying screen dimensions
 - Main menu interface
 - GameFactory and Game classes
+- Web API 
 
 ## Future Improvements/ Wishlist
 - Ability to update values from the device 
-- Web API support for users to download their own character sheets
 
 ## Known Issues
 - When trying to traverse up over the top of the list, the cursor will move down to the bottom of the screen.

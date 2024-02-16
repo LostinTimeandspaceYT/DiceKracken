@@ -1,5 +1,5 @@
 """
-
+Classes for simulating Dice pools in TTRPGs 
 """
 
 __author__ = "Nathan Winslow"
@@ -37,7 +37,14 @@ class Dice:
 class CthulhuDice(Dice):
 
     @classmethod
-    def roll_skill(cls, bonus: int, penalty: int) -> int:  # May want to change the name
+    def roll_skill(cls, bonus: int, penalty: int) -> int:  
+        """
+        Rolls a single ones digit die, along with n+1 tens dice 
+        where n is the abs(bonus - penalty)
+
+        :param: number of bonus dice
+        :param: number of penalty dice
+        """
         modifier: int = abs(bonus - penalty)
         if modifier == 0:
             return randint(1, 100)  

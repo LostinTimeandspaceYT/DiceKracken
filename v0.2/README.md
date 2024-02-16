@@ -48,18 +48,30 @@ To test the connection of your Pico-W, don't forget to change the ``ssid`` and `
 - Skills and Characteristics auto-fill half and fifth values (though currently not used)
 - Will be further fleshed out in time.
 
+### Update Feb 16/24
+_Squashed a few bugs and continued work on fleshing out functionality._
+
+- Fixed a bug that would cause critical successes to be displayed incorrectly
+- Saving changes is now possible, but will require slight refactoring to generalize functionality across all games.
+- Began work on weapon selection to determine damage dice for rolling damage during attacks.
+- Added features to PulpCthulhuGame to view pulp talents and change luck.
+-  
+
 ## In Progress
 - Fleshing out CharacterSheet class
-- Support for varying screen dimensions
 - Main menu interface
 - GameFactory and Game classes
 - Web API 
 
 ## Future Improvements/ Wishlist
-- Ability to update values from the device 
+- PCB Design for a "turn-key" solution.
+- Simple Drag and Drop UF2 File. 
 
 ## Known Issues
 - When trying to traverse up over the top of the list, the cursor will move down to the bottom of the screen.
+- Certain menu interactions lead to poorly formatted text.
+- MEMORYERROR: when attempting to serve up CoC_character_creator.html
+- Bug in `select_from_list_menu` that causes lists to sometimes now be fully displayed. _likely an issue with the bounds check._
 
 # Putting it Together
 

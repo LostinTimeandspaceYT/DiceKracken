@@ -55,7 +55,6 @@ _Squashed a few bugs and continued work on fleshing out functionality._
 - Saving changes is now possible, but will require slight refactoring to generalize functionality across all games.
 - Began work on weapon selection to determine damage dice for rolling damage during attacks.
 - Added features to PulpCthulhuGame to view pulp talents and change luck.
--  
 
 ## In Progress
 - Fleshing out CharacterSheet class

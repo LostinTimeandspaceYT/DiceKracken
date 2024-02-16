@@ -18,12 +18,12 @@ class Color:
 
 class KeypadController:
     # Menu buttons #
-    CONFIRM = const(12)
-    DENY = const(13)
     ACCEPT = const(10)
     BACKSPACE = const(11)
-    UP_MENU = const(14)
-    DOWN_MENU = const(15)
+    UP_MENU = const(12)
+    PAGE_UP = const(13)  # For scrolling through menus faster
+    DOWN_MENU = const(14)
+    PAGE_DOWN = const(15)
 
     def __init__(self):
         self._prev_btn_states = 0 # for checking states
@@ -41,12 +41,12 @@ class KeypadController:
             Color.black,
             Color.black,  
             Color.black,
-            Color.lt_blue,
-            Color.yellow,
-            Color.green,  
+            Color.green,
             Color.red,
-            Color.black,
-            Color.black,
+            Color.yellow,  
+            Color.blue,
+            Color.pink,
+            Color.purple,
         ]
         # light-up the keys
         self.default_layout()

@@ -56,11 +56,18 @@ _Squashed a few bugs and continued work on fleshing out functionality._
 - Began work on weapon selection to determine damage dice for rolling damage during attacks.
 - Added features to PulpCthulhuGame to view pulp talents and change luck.
 
+### Update Mar 1/24
+_Began work to add weapon selection functionality to CthulhuCharacter._
+
+- Add menu item for user to select which weapon to use
+- Created example Pulp Cthulhu Character
+
 ## In Progress
 - Fleshing out CharacterSheet class
 - Main menu interface
 - GameFactory and Game classes
-- Web API 
+- Web API
+- Parsing strings for dice ex: `"1d6 + 2"` == `roll_die(1,6) + 2`
 
 ## Future Improvements/ Wishlist
 - PCB Design for a "turn-key" solution.

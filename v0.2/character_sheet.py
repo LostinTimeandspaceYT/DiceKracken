@@ -31,6 +31,7 @@ class CthulhuCharacter(PlayerCharacter):
     def __init__(self, fpath: str):
         super().__init__(fpath)  
         self.prev_skill_modifier: int = 0  # used when pushing rolls.
+        self.current_weapon: dict = {}
         self.db: tuple = self.damage_bonus()
         self.skills_to_improve: list[str] = []  # Used during Development phase
     
@@ -89,6 +90,15 @@ class CthulhuCharacter(PlayerCharacter):
         """ same behavior as change_hit_points """
         self.character_sheet['Characteristics']['Sanity']['Current'] += amount
     
+    def get_weapon_names(self):
+        w_names = []
+        for i in range(1, len(self.weapons) + 1):
+            w_names.append(self.weapons[f"Weapon {i}"]["Name"])
+        return w_names
+
+    def set_current_weapon(self, selection: int):
+        self.current_weapon = self.weapons[f"Weapon {selection}"]
+
     @property
     def pronoun(self):
         return self.character_sheet['Pronoun']
@@ -96,6 +106,10 @@ class CthulhuCharacter(PlayerCharacter):
     @property
     def skills(self):
         return JSONParser.get_keys(self.character_sheet['Skills'])
+
+    @property 
+    def weapons(self):
+        return self.character_sheet["Combat"]["Weapons"]
 
     @property
     def current_sanity(self):
@@ -132,3 +146,4 @@ class PulpCharacter(CthulhuCharacter):
     def talents(self):
         return JSONParser.get_keys(self.character_sheet['Pulp Talents'])
     
+

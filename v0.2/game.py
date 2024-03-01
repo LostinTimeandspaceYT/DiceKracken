@@ -13,7 +13,7 @@ supported_games = [
     "Pulp Cthulhu",
 ]
 
-def get_game(selected_game: str):
+def get_game(selected_game: str) -> Game:
 
     if selected_game == supported_games[0]:
         return CthulhuGame
@@ -26,7 +26,7 @@ def get_game(selected_game: str):
     
 
 def get_character_sheet() -> str:
-    return "pulp_cthulhu_sheet.json"
+    return "pulp_cthulhu_Ana_Engel.json"
 
 class GameFactory():
 
@@ -39,10 +39,9 @@ class GameFactory():
 
 class Game():
     """
-    Interface to game logic
-    
-    TODO: Create menu scrolling in class to help with long menus
-    
+    Base class for all games to inherit from.
+
+    Game acts as an Interface  
     """
     def __init__(self, keypad: KeypadController, lcd: I2cLcd):
         self.keypad = keypad
@@ -81,15 +80,18 @@ class Game():
         for option in options:
             self.lcd.putstr(f"{i}: {option} \n")
             i += 1
+
         keypress = self.keypad.get_button_press()
         while keypress >= i:
             self.reset_lcd()
             self.lcd.putstr("Press a valid key. \n")
             sleep(1.5)
             self.reset_lcd()
+
             for j in range(options):
                 self.lcd.putstr(f"{j}: {options[j]} \n")
             keypress = self.keypad.get_button_press()
+
         return keypress
             
     
@@ -163,6 +165,7 @@ class Game():
         self.lcd.blink_cursor_on()
         first = True
         prev_press = -1
+
         while keypress != self.keypad.ACCEPT:
             keypress = self.keypad.get_button_press()
 
@@ -204,7 +207,6 @@ class Game():
         keypress = 0
         self.lcd.hide_cursor()
         while keypress != self.keypad.ACCEPT and keypress != self.keypad.BACKSPACE:
-
             keypress = self.keypad.get_button_press()
 
             if keypress == self.keypad.ACCEPT:
@@ -307,6 +309,7 @@ class CthulhuGame(Game):
                 self.lcd.clear()
                 self.lcd.putstr("Num of penalty \ndice:")
                 penalty = self.get_number()
+
             else:
                 bonus = 0
                 penalty = 0
@@ -329,6 +332,7 @@ class CthulhuGame(Game):
                         self.lcd.putstr("Failing pushed\nrolls is bad!")
                         sleep(2)
                         self.reset_lcd()
+
         else:
             raise TypeError("Selected Skill does not have a value associated with it.")
         
@@ -360,8 +364,12 @@ class CthulhuGame(Game):
         self.lcd.putsr(f"You deal {damage} damage")
 
     def select_weapon(self):
-        self.lcd.putstr("Not yet implemented.\n")
+        selection = 1 + self.select_option(self.investigator.get_weapon_names())  # For displaying selection back to the user
+        self.investigator.set_current_weapon(selection)
+        name = self.investigator.current_weapon["Name"]
+        self.lcd.putstr(f"you selected {name}\n")
         sleep(2.5)
+        self.reset_lcd()
 
 
 class PulpCthulhuGame(CthulhuGame):
@@ -395,3 +403,5 @@ class PulpCthulhuGame(CthulhuGame):
         filename = self.investigator.name.strip(" ") + "_pulp_cthulhu.json"
         with open(filename, "w") as file:
             json.dump(file)
+
+

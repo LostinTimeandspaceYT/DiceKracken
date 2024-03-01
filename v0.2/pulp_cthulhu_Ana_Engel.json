@@ -1,0 +1,145 @@
+{
+  "Name": "Ana Engel",
+  "Pronoun": "She/Her",
+  "Occupation": "Journalist",
+  "Archetype": "Femme Fatale",
+  "Residence": "Zürich, Switzerland",
+  "Birthplace": "Berlin, Germany",
+  "Age": 32,
+  "Characteristics": {
+    "STR": 60,
+    "CON": 60,
+    "DEX": 40,
+    "INT": 50,
+    "SIZ": 60,
+    "POW": 60,
+    "APP": 90,
+    "EDU": 70,
+    "Magic Points": {
+      "Maximum": 12,
+      "Current": 12
+    },
+    "Hit Points": {
+      "Maximum": 24,
+      "Current": 24
+    },
+    "Luck": 83,
+    "Sanity": {
+      "Starting": 60,
+      "Current": 52,
+      "Insane": 48,
+      "Maximum": 53,
+      "Temporary Insanity": false,
+      "Indefinite Insanity": false
+    }
+  },
+  "Major Wound": false,
+  "Unconscious": false,
+  "Dying": false,
+  "Pulp Talents": {
+    "Sharp Witted": "Gain a bonus die on INT (not Idea) rolls",
+    "Shadow": "Reduce diff by 1 or gain a bonus die on Stealth rolls",
+  },
+  "Skills": {
+    "Accounting": 5,
+    "Appraise": 5,
+    "Archaeology": 1,
+    "Art/Craft": 5,
+    "Charm": 75,
+    "Climb": 20,
+    "Computer Use": 0,
+    "Credit Rating": 55,
+    "Cthulhu Mythos": 7,
+    "Demolitions": 1,
+    "Disguise": 30,
+    "Diving": 1,
+    "Dodge": 30,
+    "Drive Auto": 50,
+    "Elec. Repair": 10,
+    "Fast Talk": 5,
+    "Fighting (Brawl)": 25,
+    "Firearms":{
+      "Handgun": 32,
+      "Rifle/Shotgun": 25
+    },
+    "First Aid": 30,
+    "History": 45,
+    "Intimidate": 15,
+    "Jump": 20,
+    "Language": {
+      "English": 28,
+      "Own": 70
+    },
+    "Law": 5,
+    "Library Use": 60,
+    "Listen": 38,
+    "Locksmith": 31,
+    "Mech. Repair": 10,
+    "Medicine": 1,
+    "Natural World": 10,
+    "Navigate": 10,
+    "Occult": 11,
+    "Persuade": 60,
+    "Pilot": {
+      "Vehicle": 1
+    },
+    "Psychoanalysis": 1,
+    "Psychology": 74,
+    "Read Lips": 1,
+    "Ride": 5,
+    "Science": {
+      "Disciple": 1
+    },
+    "Sleight of Hand": 10,
+    "Spot Hidden": 25,
+    "Stealth": 20,
+    "Survival": {
+      "Type": 10
+    },
+    "Swim": 20,
+    "Throw": 20,
+    "Track": 10,
+    "Other": {
+      "Specialty 1": 0,
+      "Specialty 2": 0,
+      "Specialty 3": 0
+    }
+  },
+  "Combat": {
+    "Build" : 0,
+    "Damage Bonus": "",
+    "Dodge": 0,
+    "Move" : 0,
+    "Weapons" : {
+      "Weapon 1" : {
+        "Name" : "Brawl",
+        "Damage " : "1d3 + db",
+        "num of attacks" : 1,
+        "Range": "",
+        "Ammo": null,
+        "Malf": null
+      },
+      "Weapon 2" : {
+        "Name" : ".25 Derringer",
+        "Damage " : "1d6",
+        "num of attacks" : 1,
+        "Range": "3 yards",
+        "Ammo": 6,
+        "Malf": "100"
+      },
+      "Weapon 3" : {
+        "Name" : "",
+        "Damage " : "",
+        "num of attacks" : 1,
+        "Range": "",
+        "Ammo": null,
+        "Malf": null
+      }
+    }
+  },
+  "Phobias":{
+    "Phobia 1": "",
+    "Phobia 2": "",
+    "Phobia 3": ""
+  }   	
+}

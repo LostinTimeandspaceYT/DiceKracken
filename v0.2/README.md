@@ -57,10 +57,11 @@ _Squashed a few bugs and continued work on fleshing out functionality._
 - Added features to PulpCthulhuGame to view pulp talents and change luck.
 
 ### Update Mar 1/24
-_Began work to add weapon selection functionality to CthulhuCharacter._
+_Continued work on weapon selection to CthulhuCharacter._
 
-- Add menu item for user to select which weapon to use
-- Created example Pulp Cthulhu Character
+- Created example Pulp Cthulhu Character.
+- Add menu item for user to select which weapon to use from their list of weapons. 
+- Added a `current_weapon` member to `CthulhuCharacter` for accessing weapon stats.
 
 ## In Progress
 - Fleshing out CharacterSheet class

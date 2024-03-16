@@ -8,22 +8,18 @@ __copyright__ = "MIT"
 from micropython import const
 from machine import I2C, Pin
 from time import sleep
-from character_sheet import PulpCharacter
 from I2C_LCD import I2cLcd
-from dice import Dice
 from kpc import KeypadController, Color
-from game import supported_games, GameFactory
-
-
+from game_factory import GameFactory, supported_games
 
 
 # change these for your particular screen
-_NUM_OF_ROWS = const(4) 
+_NUM_OF_ROWS = const(4)
 _NUM_OF_COLS = const(20)
 
 
 i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=100_000)
-i2c_addr = i2c.scan()[1]  # in this build address[0] is the keypad io
+i2c_addr = i2c.scan()[1]  # in this build address[0] is the keypad IO
 lcd = I2cLcd(i2c, i2c_addr, _NUM_OF_ROWS, _NUM_OF_COLS)
 
 # Keypad
@@ -37,17 +33,20 @@ def welcome_splash():
     sleep(5)
     reset_lcd()
 
+
 def reset_lcd():
     lcd.clear()
     lcd.blink_cursor_off()
 
-main_menu_options = [ 
+
+main_menu_options = [
     "Select game",
     "Download PC",
     "Download game",
     # add other options here!
-    "Exit"  # Exit should always be last
+    "Exit",  # Exit should always be last
 ]
+
 
 def print_options(options: list[str]):
     i = 0
@@ -57,19 +56,14 @@ def print_options(options: list[str]):
 
 
 def main_menu():
-    sub_menus = [
-        game_menu,
-        download_character_menu,
-        download_game_menu,
-        power_off
-    ]
+    sub_menus = [game_menu, download_character_menu, download_game_menu, power_off]
+
     keypress = -1
     while keypress != len(sub_menus) - 1:
         reset_lcd()
         print_options(main_menu_options)
         keypress = keypad.get_button_press()
         sub_menus[keypress]()
-    
 
 
 def game_menu():
@@ -79,11 +73,11 @@ def game_menu():
         lcd.putstr(f"{i}: {game} \n")
         i += 1
     keypress = keypad.get_button_press()
-    
+
     while keypress >= len(supported_games):
         lcd.putstr("Press a valid key.\n")
         keypress = keypad.get_button_press()
-    
+
     selected = supported_games[keypress]
     game = GameFactory.create_game(keypad, lcd, selected)
     game.loop()
@@ -92,8 +86,10 @@ def game_menu():
 def download_character_menu():
     pass
 
+
 def download_game_menu():
     pass
+
 
 def power_off():
     reset_lcd()
@@ -102,6 +98,7 @@ def power_off():
     lcd.backlight_off()
     reset_lcd()
     keypad.light_buttons(16, Color.black)
+
 
 """
 Start up Procedure
@@ -132,4 +129,3 @@ try:
 
 finally:
     power_off()
-    
